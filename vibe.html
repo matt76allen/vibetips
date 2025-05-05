@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe Check - Vibe Tips</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: "#fb8b24",   // orange (main buttons)
+              accent: "#e36414",    // darker orange (hover state)
+              background: "#f9fafb", // light background
+              heading: "#0f4c5c",    // dark teal (headlines)
+              text: "#5f0f40",       // plum (body text)
+              alert: "#9a031e"       // red (alerts or strong emphasis)
+            }
+          },
+          fontFamily: {
+            heading: ["Baloo", "cursive"],      
+            body: ["Nunito", "sans-serif"]      
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-6">
+
+  <!-- FLOATING HEADER -->
+  <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
+    <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$34.75</div>
+    <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay">Maria</div>
+    <div class="text-lg font-body text-brand-text" id="restaurantDisplay">Sunset Grill</div>
+  </div>
+
+  <!-- PLACEHOLDER FOR QUESTIONS (Coming Next) -->
+  <div id="vibeQuestions" class="mt-8 text-center">
+    <p class="text-base text-brand-text">[Vibe questions will appear here...]</p>
+  </div>
+
+</body>
+</html>
