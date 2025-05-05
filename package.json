@@ -1,0 +1,25 @@
+{
+  "name": "vibetips",
+  "version": "1.0.0",
+  "description": "Web app for calculating tips and thanking servers based on good vibes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt76allen/vibetips.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matt76allen/vibetips/issues"
+  },
+  "homepage": "https://github.com/matt76allen/vibetips#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5"
+  }
+}
