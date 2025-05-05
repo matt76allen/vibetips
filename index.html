@@ -4,9 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vibe Tips</title>
-  <link rel="icon" href="/favicon.ico" />
 
-  <!-- Tailwind CSS + Custom Config -->
+  <!-- Favicon & Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS + Config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,25 +23,22 @@
         extend: {
           colors: {
             brand: {
-              primary: "#fb8b24",
-              accent: "#e36414",
-              background: "#f9fafb",
-              heading: "#0f4c5c",
-              text: "#5f0f40",
-              alert: "#9a031e"
+              primary: "#fb8b24",   // orange (main buttons)
+              accent: "#e36414",    // darker orange (hover state)
+              background: "#f9fafb", // light background
+              heading: "#0f4c5c",    // dark teal (headlines)
+              text: "#5f0f40",       // plum (body text)
+              alert: "#9a031e"       // red (alerts or strong emphasis)
             }
           },
           fontFamily: {
-            heading: ["Baloo", "cursive"],
-            body: ["Nunito", "sans-serif"]
+            heading: ["Baloo", "cursive"],   // Headlines
+            body: ["Nunito", "sans-serif"]   // Body text
           }
         }
       }
-    }
+    };
   </script>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
 </head>
 
 <body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col justify-between">
@@ -43,7 +49,7 @@
     <h1 class="text-3xl md:text-5xl font-heading font-bold text-brand-heading mb-2">
       Good vibes deserve great tips.
     </h1>
-    <p class="text-lg md:text-xl text-brand-text">
+    <p class="text-lg md:text-xl">
       Make tipping easier, smarter, and more fun—starting now.
     </p>
     <a href="#start" class="inline-block mt-6 px-6 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-accent transition">
@@ -53,17 +59,17 @@
 
   <!-- ABOUT / INFO -->
   <section id="about" class="px-6 py-12 text-center">
-    <h2 class="text-2xl md:text-3xl font-heading font-bold mb-4 text-brand-heading">
+    <h2 class="text-2xl md:text-3xl font-heading font-bold text-brand-heading mb-4">
       What is Vibe Tips?
     </h2>
-    <p class="text-base md:text-lg max-w-xl mx-auto text-brand-text">
+    <p class="text-base md:text-lg max-w-xl mx-auto">
       Vibe Tips is a mobile-first web app that helps you calculate fair, generous tips based on how your experience <em>felt</em> — not just math.
       It also helps you thank your server and share that good vibe with the world. Simple. Thoughtful. Positive.
     </p>
   </section>
 
   <!-- FOOTER -->
-  <footer class="text-center text-sm text-brand-text py-6 border-t border-gray-200 mt-10">
+  <footer class="text-center text-sm py-6 border-t border-gray-200 mt-10">
     <p class="mb-2">© 2025 Vibe Tips. All rights reserved.</p>
     <div class="space-x-4">
       <a href="#" class="hover:underline">Privacy Policy</a>
