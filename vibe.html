@@ -44,10 +44,41 @@
     <div class="text-lg font-body text-brand-text" id="restaurantDisplay">Sunset Grill</div>
   </div>
 
-  <!-- PLACEHOLDER FOR QUESTIONS (Coming Next) -->
-  <div id="vibeQuestions" class="mt-8 text-center">
-    <p class="text-base text-brand-text">[Vibe questions will appear here...]</p>
+ <!-- SINGLE VIBE QUESTION STATIC DISPLAY -->
+<div class="mt-8 text-center" id="vibeQuestion1">
+    <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">
+      How friendly was your server?
+    </h2>
+  
+    <input
+    type="range"
+    min="1"
+    max="100"
+    value="50"
+    class="w-full max-w-[800px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
+    id="vibeSlider1"
+  />
+  
+  
+    <!-- Static Labels -->
+    <div class="flex justify-between w-full md:w-2/3 mx-auto text-sm text-brand-text mt-2">
+      <span>Negative</span>
+      <span>Neutral</span>
+      <span>Positive</span>
+    </div>
+  
+    <!-- CTA -->
+    <div class="mt-6">
+      <button
+        class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
+        id="nextQuestionBtn"
+      >
+        Next Question →
+      </button>
+    </div>
   </div>
+  
+  
 
 </body>
 </html>
