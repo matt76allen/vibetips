@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vibe Check - Vibe Tips</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="shortcut icon" href="/favicon.ico" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,12 +26,12 @@
             }
           },
           fontFamily: {
-            heading: ["Baloo", "cursive"],      
-            body: ["Nunito", "sans-serif"]      
+            heading: ["Baloo", "cursive"],
+            body: ["Nunito", "sans-serif"]
           }
         }
       }
-    }
+    };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
 </head>
@@ -44,42 +45,121 @@
     <div class="text-lg font-body text-brand-text" id="restaurantDisplay">Sunset Grill</div>
   </div>
 
- <!-- SINGLE VIBE QUESTION STATIC DISPLAY -->
-<div class="mt-8 text-center" id="vibeQuestion1">
-    <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">
-      How friendly was your server?
-    </h2>
-  
-    <input
-    type="range"
-    min="1"
-    max="100"
-    value="50"
-    class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
-    id="vibeSlider1"
-  />
-  
-  
-    <!-- Static Labels -->
-    <div class="flex justify-between text-sm text-brand-text mt-2 px-2 max-w-[600px] mx-auto">
-        <span>Negative</span>
-        <span>Neutral</span>
-        <span>Positive</span>
-      </div>
-      
-  
-    <!-- CTA -->
-    <div class="mt-6">
-      <button
-        class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
-        id="nextQuestionBtn"
-      >
-        Next Question →
-      </button>
-    </div>
+  <!-- QUESTION CONTAINER -->
+  <div id="vibeQuestions" class="mt-8 text-center">
+    <!-- Questions will be injected here dynamically -->
   </div>
-  
-  
 
+  <!-- JS to control question flow -->
+  <script>
+    const vibeQuestions = [
+      {
+        text: "How friendly was your server?",
+        labels: ["Unfriendly", "Neutral", "Very Friendly"]
+      },
+      {
+        text: "How quickly did you get your food?",
+        labels: ["Slow", "Average", "Super Fast"]
+      },
+      {
+        text: "How attentive was your server?",
+        labels: ["Distracted", "Okay", "Very Attentive"]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    const sliderResponses = [];
+
+    function renderQuestion(index) {
+      const question = vibeQuestions[index];
+      const container = document.getElementById("vibeQuestions");
+
+      container.innerHTML = `
+        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.text}</h2>
+
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="50"
+          class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
+          id="vibeSlider"
+        />
+
+        <div class="flex justify-between text-sm text-brand-text mt-2 px-2 max-w-[600px] mx-auto">
+          <span>${question.labels[0]}</span>
+          <span>${question.labels[1]}</span>
+          <span>${question.labels[2]}</span>
+        </div>
+
+        <div class="mt-6">
+          <button
+            class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
+            onclick="nextQuestion()"
+          >
+            ${index < vibeQuestions.length - 1 ? "Next Question →" : "See Results →"}
+          </button>
+        </div>
+      `;
+    }
+
+    function nextQuestion() {
+      const sliderValue = document.getElementById("vibeSlider").value;
+      sliderResponses.push(parseInt(sliderValue));
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < vibeQuestions.length) {
+        renderQuestion(currentQuestionIndex);
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+  const container = document.getElementById("vibeQuestions");
+
+  // Sample bill value — later we’ll pull this from real input
+  const billAmount = 34.75;
+
+  // Calculate vibe score
+  const total = sliderResponses.reduce((sum, val) => sum + val, 0);
+  const vibeScore = Math.round(total / sliderResponses.length);
+
+  // Translate vibe score into a tip %
+  let tipPercent = 15; // default minimum
+  if (vibeScore > 60) tipPercent = 18;
+  if (vibeScore > 75) tipPercent = 20;
+  if (vibeScore > 90) tipPercent = 22;
+
+  const generousTipPercent = tipPercent + 3;
+
+  // Calculate tip amounts
+  const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
+  const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
+
+  container.innerHTML = `
+    <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
+    <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
+    
+    <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
+      <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
+      <p class="text-sm text-brand-text">Want to go above and beyond?</p>
+      <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
+    </div>
+
+    <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount} bill</p>
+  `;
+
+  console.log("Vibe score:", vibeScore);
+  console.log("Tip:", `$${tipAmount} (${tipPercent}%)`);
+  console.log("Generous Tip:", `$${generousTipAmount} (${generousTipPercent}%)`);
+}
+
+
+
+    // Load the first question
+    renderQuestion(currentQuestionIndex);
+  </script>
 </body>
 </html>
