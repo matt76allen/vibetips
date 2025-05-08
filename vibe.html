@@ -37,12 +37,11 @@
 </head>
 
 <body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-6">
-
   <!-- FLOATING HEADER -->
   <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
-    <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$34.75</div>
-    <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay">Maria</div>
-    <div class="text-lg font-body text-brand-text" id="restaurantDisplay">Sunset Grill</div>
+    <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$0.00</div>
+    <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay"></div>
+    <div class="text-lg font-body text-brand-text" id="restaurantDisplay"></div>
   </div>
 
   <!-- QUESTION CONTAINER -->
@@ -50,32 +49,36 @@
     <!-- Questions will be injected here dynamically -->
   </div>
 
-  <!-- JS to control question flow -->
+  <!-- JS Logic -->
   <script>
-    const vibeQuestions = [
-      {
-        text: "How friendly was your server?",
-        labels: ["Unfriendly", "Neutral", "Very Friendly"]
-      },
-      {
-        text: "How quickly did you get your food?",
-        labels: ["Slow", "Average", "Super Fast"]
-      },
-      {
-        text: "How attentive was your server?",
-        labels: ["Distracted", "Okay", "Very Attentive"]
-      }
-    ];
-
+    let vibeQuestions = []; // Populated dynamically
     let currentQuestionIndex = 0;
     const sliderResponses = [];
+
+    async function fetchVibeQuestions(formData) {
+      // TEMP: Mock data until serverless API is wired up
+      return [
+        {
+          question: `How upbeat was the vibe at ${formData.restaurant}?`,
+          labels: ["Lowkey", "Decent", "High Energy"]
+        },
+        {
+          question: `How chill was ${formData.server || 'the server'} throughout the meal?`,
+          labels: ["Tense", "Okay", "Super Chill"]
+        },
+        {
+          question: `How well did the ${formData.type.toLowerCase()} vibe match your mood?`,
+          labels: ["Clashing", "Neutral", "Perfect Fit"]
+        }
+      ];
+    }
 
     function renderQuestion(index) {
       const question = vibeQuestions[index];
       const container = document.getElementById("vibeQuestions");
 
       container.innerHTML = `
-        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.text}</h2>
+        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
 
         <input
           type="range"
@@ -106,7 +109,6 @@
     function nextQuestion() {
       const sliderValue = document.getElementById("vibeSlider").value;
       sliderResponses.push(parseInt(sliderValue));
-
       currentQuestionIndex++;
 
       if (currentQuestionIndex < vibeQuestions.length) {
@@ -117,49 +119,50 @@
     }
 
     function showResults() {
-  const container = document.getElementById("vibeQuestions");
+      const container = document.getElementById("vibeQuestions");
+      const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
 
-  // Sample bill value — later we’ll pull this from real input
-  const billAmount = 34.75;
+      const total = sliderResponses.reduce((sum, val) => sum + val, 0);
+      const vibeScore = Math.round(total / sliderResponses.length);
 
-  // Calculate vibe score
-  const total = sliderResponses.reduce((sum, val) => sum + val, 0);
-  const vibeScore = Math.round(total / sliderResponses.length);
+      let tipPercent = 15;
+      if (vibeScore > 60) tipPercent = 18;
+      if (vibeScore > 75) tipPercent = 20;
+      if (vibeScore > 90) tipPercent = 22;
 
-  // Translate vibe score into a tip %
-  let tipPercent = 15; // default minimum
-  if (vibeScore > 60) tipPercent = 18;
-  if (vibeScore > 75) tipPercent = 20;
-  if (vibeScore > 90) tipPercent = 22;
+      const generousTipPercent = tipPercent + 3;
 
-  const generousTipPercent = tipPercent + 3;
+      const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
+      const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
 
-  // Calculate tip amounts
-  const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
-  const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
+      container.innerHTML = `
+        <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
+        <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
 
-  container.innerHTML = `
-    <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
-    <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
-    
-    <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
-      <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
-      <p class="text-sm text-brand-text">Want to go above and beyond?</p>
-      <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
-    </div>
+        <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
+          <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
+          <p class="text-sm text-brand-text">Want to go above and beyond?</p>
+          <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
+        </div>
 
-    <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount} bill</p>
-  `;
+        <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount.toFixed(2)} bill</p>
+      `;
+    }
 
-  console.log("Vibe score:", vibeScore);
-  console.log("Tip:", `$${tipAmount} (${tipPercent}%)`);
-  console.log("Generous Tip:", `$${generousTipAmount} (${generousTipPercent}%)`);
-}
+    window.onload = async () => {
+      const bill = parseFloat(localStorage.getItem("bill")) || 0;
+      const restaurant = localStorage.getItem("restaurant") || "";
+      const type = localStorage.getItem("type") || "";
+      const server = localStorage.getItem("server") || "";
 
+      document.getElementById("billDisplay").textContent = `$${bill.toFixed(2)}`;
+      document.getElementById("serverDisplay").textContent = server;
+      document.getElementById("restaurantDisplay").textContent = restaurant;
 
-
-    // Load the first question
-    renderQuestion(currentQuestionIndex);
+      const formData = { bill, restaurant, type, server };
+      vibeQuestions = await fetchVibeQuestions(formData);
+      renderQuestion(currentQuestionIndex);
+    };
   </script>
 </body>
 </html>

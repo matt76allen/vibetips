@@ -1,17 +1,21 @@
+<!-- tip_calculator_ui.html -->
+<!-- This Canvas contains code for both start.html and vibe.html related to the Tip Calculator UI -->
+
+<!-- START.HTML - Input Form UI -->
+<!-- Users enter: bill amount, restaurant name/type, server name. Data is stored in localStorage -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tip Calculator - Vibe Tips</title>
-
-  <!-- Favicon -->
+  <title>Start Tip</title>
   <link rel="icon" href="/favicon.ico" />
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
 
-  <!-- TailwindCSS CDN + Custom Config -->
+  <!-- Tailwind CSS + Custom Config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,47 +32,34 @@
             }
           },
           fontFamily: {
-            heading: ["Baloo", "cursive"],   // Headlines
-            body: ["Nunito", "sans-serif"]   // Body text
+            heading: ["Baloo", "cursive"],
+            body: ["Nunito", "sans-serif"]
           }
         }
       }
-    };
+    }
   </script>
 </head>
-
-<body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col justify-start px-6 py-10">
-
-  <!-- HEADER -->
+<body class="bg-brand-background text-brand-text font-body p-6 min-h-screen flex flex-col">
   <header class="text-center mb-8">
-    <h1 class="text-3xl font-heading font-bold text-brand-heading">
-      Start Your Vibe Tip
-    </h1>
-    <p class="text-brand-text">Let’s get the basics so we can vibe right.</p>
+    <h1 class="text-3xl font-heading text-brand-heading">Start Your Vibe Tip</h1>
+    <p class="text-brand-text mt-2">Let’s get the basics so we can vibe right.</p>
   </header>
 
-  <!-- FORM -->
   <form id="tipForm" class="space-y-6 max-w-lg mx-auto">
-
-    <!-- Bill Amount -->
     <div>
       <label for="bill" class="block text-sm font-semibold mb-1">Bill Amount ($)</label>
-      <input type="number" step="0.01" id="bill" name="bill" required
-        class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary" />
+      <input type="number" step="0.01" id="bill" name="bill" required class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary"/>
     </div>
 
-    <!-- Restaurant Name -->
     <div>
       <label for="restaurant" class="block text-sm font-semibold mb-1">Restaurant Name</label>
-      <input type="text" id="restaurant" name="restaurant" required
-        class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary" />
+      <input type="text" id="restaurant" name="restaurant" required class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary"/>
     </div>
 
-    <!-- Restaurant Type -->
     <div>
       <label for="type" class="block text-sm font-semibold mb-1">Restaurant Type</label>
-      <select id="type" name="type" required
-        class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary">
+      <select id="type" name="type" required class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary">
         <option value="">Select one</option>
         <option value="Casual">Casual</option>
         <option value="Fine Dining">Fine Dining</option>
@@ -79,21 +70,35 @@
       </select>
     </div>
 
-    <!-- Server Name (Optional) -->
     <div>
       <label for="server" class="block text-sm font-semibold mb-1">Server’s Name (optional)</label>
-      <input type="text" id="server" name="server" placeholder="If you remember it…"
-        class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary" />
+      <input type="text" id="server" name="server" placeholder="If you remember it…" class="w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary"/>
     </div>
 
-    <!-- Submit Button -->
     <div class="text-center pt-4">
-      <button type="submit"
-        class="bg-brand-primary text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-accent transition">
+      <button type="submit" class="bg-brand-primary text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-accent transition">
         Start Vibe Check →
       </button>
     </div>
   </form>
 
+  <script>
+    document.getElementById('tipForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const bill = document.getElementById('bill').value;
+      const restaurant = document.getElementById('restaurant').value;
+      const type = document.getElementById('type').value;
+      const server = document.getElementById('server').value;
+
+      localStorage.setItem('bill', bill);
+      localStorage.setItem('restaurant', restaurant);
+      localStorage.setItem('type', type);
+      localStorage.setItem('server', server);
+
+      window.location.href = 'vibe.html';
+    });
+  </script>
 </body>
 </html>
+
+<!-- VIBE.HTML - Will dynamically retrieve localStorage values, display persistent header, and handle vibe question UI next -->
