@@ -56,21 +56,19 @@
     const sliderResponses = [];
 
     async function fetchVibeQuestions(formData) {
-      // TEMP: Mock data until serverless API is wired up
-      return [
-        {
-          question: `How upbeat was the vibe at ${formData.restaurant}?`,
-          labels: ["Lowkey", "Decent", "High Energy"]
-        },
-        {
-          question: `How chill was ${formData.server || 'the server'} throughout the meal?`,
-          labels: ["Tense", "Okay", "Super Chill"]
-        },
-        {
-          question: `How well did the ${formData.type.toLowerCase()} vibe match your mood?`,
-          labels: ["Clashing", "Neutral", "Perfect Fit"]
-        }
-      ];
+      try {
+        const res = await fetch("/api/generate-questions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+        return data.questions || [];
+      } catch (err) {
+        console.error("Failed to fetch questions:", err);
+        return [];
+      }
     }
 
     function renderQuestion(index) {
