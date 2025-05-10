@@ -57,13 +57,18 @@
 
     async function fetchVibeQuestions(formData) {
       try {
+        console.log("Sending data to /api/generate-questions:", formData);
+
         const res = await fetch("/api/generate-questions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)
         });
 
-        const data = await res.json();
+        const raw = await res.text();
+        console.log("Raw response from API:", raw);
+
+        const data = JSON.parse(raw);
         return data.questions || [];
       } catch (err) {
         console.error("Failed to fetch questions:", err);
