@@ -71,14 +71,32 @@
         const data = JSON.parse(raw);
         return data.questions || [];
       } catch (err) {
-        console.error("Failed to fetch questions:", err);
-        return [];
+        console.error("❌ Failed to fetch questions from API. Using fallback questions.", err);
+        return [
+          {
+            question: "How friendly was your server?",
+            labels: ["Unfriendly", "Neutral", "Very Friendly"]
+          },
+          {
+            question: "How quickly did your food arrive?",
+            labels: ["Slow", "Average", "Super Fast"]
+          },
+          {
+            question: "How was the overall atmosphere?",
+            labels: ["Off", "Okay", "Amazing"]
+          }
+        ];
       }
     }
 
     function renderQuestion(index) {
       const question = vibeQuestions[index];
       const container = document.getElementById("vibeQuestions");
+
+      if (!question) {
+        container.innerHTML = `<p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>`;
+        return;
+      }
 
       container.innerHTML = `
         <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>

@@ -23,10 +23,9 @@ Each question should:
 - Avoid repetition and stay under 20 words per question
 - Never ask about payment or tip amount
 
-Format your response as a JSON array of objects like this:
+Respond ONLY with valid JSON. No explanations or Markdown. Format like this:
 [
-  { "question": "How was the vibe of the place overall?", "labels": ["Off", "Chill", "Electric"] },
-  ...
+  { "question": "How was the vibe of the place overall?", "labels": ["Off", "Chill", "Electric"] }
 ]
 `;
 
@@ -50,10 +49,16 @@ Generate vibe-check questions based on this visit.
     });
 
     const raw = completion.choices[0].message.content;
-    const questions = JSON.parse(raw);
+    console.log("🧪 Raw OpenAI message:", raw);
+
+    // Extract the first [ ... ] array from response using regex
+    const jsonMatch = raw.match(/\\[.*\\]/s);
+    if (!jsonMatch) throw new Error("No JSON array found in OpenAI response");
+
+    const questions = JSON.parse(jsonMatch[0]);
     return res.status(200).json({ questions });
   } catch (err) {
-    console.error("Error generating questions:", err);
+    console.error("❌ Error generating questions:", err);
     return res.status(500).json({ error: "Failed to generate questions" });
   }
 }
