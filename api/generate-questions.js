@@ -51,9 +51,8 @@ Generate vibe-check questions based on this visit.
     const raw = completion.choices[0].message.content;
     console.log("🧪 Raw OpenAI message:", raw);
 
-    // Extract the first [ ... ] array from response using regex
-    const jsonMatch = raw.match(/\\[.*\\]/s);
-    if (!jsonMatch) throw new Error("No JSON array found in OpenAI response");
+    const questions = JSON.parse(raw);
+
 
     const questions = JSON.parse(jsonMatch[0]);
     return res.status(200).json({ questions });
