@@ -40,26 +40,25 @@ Generate vibe-check questions based on this visit.
 `;
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4-turbo",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
-      temperature: 0.9,
-      max_tokens: 800
-    });
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4-turbo",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userPrompt }
+    ],
+    temperature: 0.9,
+    max_tokens: 800
+  });
 
-    const raw = completion.choices[0].message.content;
-    console.log("🧪 Raw OpenAI message:", raw);
+  const raw = completion.choices[0].message.content;
+  console.log("🧪 Raw OpenAI message:", raw);
 
-    const questions = JSON.parse(raw);
+  const questions = JSON.parse(raw); // ✅ Only this line remains
 
+  return res.status(200).json({ questions });
+} catch (err) {
+  console.error("❌ Error generating questions:", err);
+  return res.status(500).json({ error: "Failed to generate questions" });
+}
 
-    const questions = JSON.parse(jsonMatch[0]);
-    return res.status(200).json({ questions });
-  } catch (err) {
-    console.error("❌ Error generating questions:", err);
-    return res.status(500).json({ error: "Failed to generate questions" });
-  }
 }
