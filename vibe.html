@@ -65,7 +65,7 @@
     }
 
     .vibe-logo {
-      width: 80px;
+      width: 120px;
       animation: pulse 2s infinite;
       filter: drop-shadow(0 0 10px #f26464);
     }
@@ -102,7 +102,7 @@
 <body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-6">
   <!-- Loading Screen -->
   <div id="vibe-loader">
-    <img src="/favicon-192.png" alt="Vibe Tips Logo" class="vibe-logo" />
+    <img src="/vibe-loader.png" alt="Vibe Tips Logo" class="vibe-logo" />
     <div class="typing-text">Feeling the vibe... hang tight</div>
   </div>
 
@@ -144,16 +144,15 @@
 
         setTimeout(() => {
           loader.classList.add("fade-out");
+          vibeQuestions = data.questions || [];
           container.classList.add("fade-in");
           renderQuestion(currentQuestionIndex);
         }, delay);
 
-        return data.questions || [];
       } catch (err) {
         console.error("❌ Failed to fetch questions from API. Using fallback questions.", err);
         loader.classList.add("fade-out");
-        container.classList.add("fade-in");
-        return [
+        vibeQuestions = [
           {
             question: "How friendly was your server?",
             labels: ["Unfriendly", "Neutral", "Very Friendly"]
@@ -167,6 +166,8 @@
             labels: ["Off", "Okay", "Amazing"]
           }
         ];
+        container.classList.add("fade-in");
+        renderQuestion(currentQuestionIndex);
       }
     }
 
@@ -181,7 +182,7 @@
       document.getElementById("restaurantDisplay").textContent = restaurant;
 
       const formData = { bill, restaurant, type, server };
-      vibeQuestions = await fetchVibeQuestions(formData);
+      await fetchVibeQuestions(formData);
     };
   </script>
 </body>
