@@ -124,6 +124,87 @@
     let currentQuestionIndex = 0;
     const sliderResponses = [];
 
+    function renderQuestion(index) {
+      const question = vibeQuestions[index];
+      const container = document.getElementById("vibeQuestions");
+
+      if (!question) {
+        container.innerHTML = `<p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
+
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="50"
+          class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
+          id="vibeSlider"
+        />
+
+        <div class="flex justify-between text-sm text-brand-text mt-2 px-2 max-w-[600px] mx-auto">
+          <span>${question.labels[0]}</span>
+          <span>${question.labels[1]}</span>
+          <span>${question.labels[2]}</span>
+        </div>
+
+        <div class="mt-6">
+          <button
+            class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
+            onclick="nextQuestion()"
+          >
+            ${index < vibeQuestions.length - 1 ? "Next Question →" : "See Results →"}
+          </button>
+        </div>
+      `;
+    }
+
+    function nextQuestion() {
+      const sliderValue = document.getElementById("vibeSlider").value;
+      sliderResponses.push(parseInt(sliderValue));
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < vibeQuestions.length) {
+        renderQuestion(currentQuestionIndex);
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      const container = document.getElementById("vibeQuestions");
+      const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+
+      const total = sliderResponses.reduce((sum, val) => sum + val, 0);
+      const vibeScore = Math.round(total / sliderResponses.length);
+
+      let tipPercent = 15;
+      if (vibeScore > 60) tipPercent = 18;
+      if (vibeScore > 75) tipPercent = 20;
+      if (vibeScore > 90) tipPercent = 22;
+
+      const generousTipPercent = tipPercent + 3;
+
+      const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
+      const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
+
+      container.innerHTML = `
+        <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
+        <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
+
+        <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
+          <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
+          <p class="text-sm text-brand-text">Want to go above and beyond?</p>
+          <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
+        </div>
+
+        <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount.toFixed(2)} bill</p>
+      `;
+    }
+
     async function fetchVibeQuestions(formData) {
       const loader = document.getElementById("vibe-loader");
       const container = document.getElementById("vibeQuestions");
