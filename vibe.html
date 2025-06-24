@@ -17,12 +17,12 @@
         extend: {
           colors: {
             brand: {
-              primary: "#fb8b24",   // orange (main buttons)
-              accent: "#e36414",    // darker orange (hover state)
-              background: "#f9fafb", // light background
-              heading: "#0f4c5c",    // dark teal (headlines)
-              text: "#5f0f40",       // plum (body text)
-              alert: "#9a031e"       // red (alerts or strong emphasis)
+              primary: "#fb8b24",
+              accent: "#e36414",
+              background: "#f9fafb",
+              heading: "#0f4c5c",
+              text: "#5f0f40",
+              alert: "#9a031e"
             }
           },
           fontFamily: {
@@ -34,9 +34,78 @@
     };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
+
+  <style>
+    #vibe-loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+
+    .fade-out {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    #vibeQuestions {
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+
+    .fade-in {
+      opacity: 1 !important;
+    }
+
+    .vibe-logo {
+      width: 120px;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 0 10px #f26464);
+    }
+
+    .typing-text {
+      margin-top: 20px;
+      font-family: 'Baloo', sans-serif;
+      font-size: 1.2rem;
+      color: #444;
+      border-right: 2px solid #444;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(30, end) forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.85; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 280px }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+  </style>
 </head>
 
 <body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-6">
+  <!-- Loading Screen -->
+  <div id="vibe-loader">
+    <img src="vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
+    <div class="typing-text">Feeling the vibe... hang tight</div>
+  </div>
+
   <!-- FLOATING HEADER -->
   <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
     <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$0.00</div>
@@ -51,14 +120,17 @@
 
   <!-- JS Logic -->
   <script>
-    let vibeQuestions = []; // Populated dynamically
+    let vibeQuestions = [];
     let currentQuestionIndex = 0;
     const sliderResponses = [];
 
     async function fetchVibeQuestions(formData) {
-      try {
-        console.log("Sending data to /api/generate-questions:", formData);
+      const loader = document.getElementById("vibe-loader");
+      const container = document.getElementById("vibeQuestions");
+      const startTime = Date.now();
+      const MIN_LOAD_TIME = 3000;
 
+      try {
         const res = await fetch("/api/generate-questions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -66,13 +138,21 @@
         });
 
         const raw = await res.text();
-        console.log("Raw response from API:", raw);
-
         const data = JSON.parse(raw);
-        return data.questions || [];
+        const elapsed = Date.now() - startTime;
+        const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
+
+        setTimeout(() => {
+          loader.classList.add("fade-out");
+          vibeQuestions = data.questions || [];
+          container.classList.add("fade-in");
+          renderQuestion(currentQuestionIndex);
+        }, delay);
+
       } catch (err) {
         console.error("❌ Failed to fetch questions from API. Using fallback questions.", err);
-        return [
+        loader.classList.add("fade-out");
+        vibeQuestions = [
           {
             question: "How friendly was your server?",
             labels: ["Unfriendly", "Neutral", "Very Friendly"]
@@ -86,88 +166,9 @@
             labels: ["Off", "Okay", "Amazing"]
           }
         ];
-      }
-    }
-
-    function renderQuestion(index) {
-      const question = vibeQuestions[index];
-      const container = document.getElementById("vibeQuestions");
-
-      if (!question) {
-        container.innerHTML = `<p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>`;
-        return;
-      }
-
-      container.innerHTML = `
-        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
-
-        <input
-          type="range"
-          min="1"
-          max="100"
-          value="50"
-          class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
-          id="vibeSlider"
-        />
-
-        <div class="flex justify-between text-sm text-brand-text mt-2 px-2 max-w-[600px] mx-auto">
-          <span>${question.labels[0]}</span>
-          <span>${question.labels[1]}</span>
-          <span>${question.labels[2]}</span>
-        </div>
-
-        <div class="mt-6">
-          <button
-            class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
-            onclick="nextQuestion()"
-          >
-            ${index < vibeQuestions.length - 1 ? "Next Question →" : "See Results →"}
-          </button>
-        </div>
-      `;
-    }
-
-    function nextQuestion() {
-      const sliderValue = document.getElementById("vibeSlider").value;
-      sliderResponses.push(parseInt(sliderValue));
-      currentQuestionIndex++;
-
-      if (currentQuestionIndex < vibeQuestions.length) {
+        container.classList.add("fade-in");
         renderQuestion(currentQuestionIndex);
-      } else {
-        showResults();
       }
-    }
-
-    function showResults() {
-      const container = document.getElementById("vibeQuestions");
-      const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
-
-      const total = sliderResponses.reduce((sum, val) => sum + val, 0);
-      const vibeScore = Math.round(total / sliderResponses.length);
-
-      let tipPercent = 15;
-      if (vibeScore > 60) tipPercent = 18;
-      if (vibeScore > 75) tipPercent = 20;
-      if (vibeScore > 90) tipPercent = 22;
-
-      const generousTipPercent = tipPercent + 3;
-
-      const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
-      const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
-
-      container.innerHTML = `
-        <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
-        <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
-
-        <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
-          <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
-          <p class="text-sm text-brand-text">Want to go above and beyond?</p>
-          <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
-        </div>
-
-        <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount.toFixed(2)} bill</p>
-      `;
     }
 
     window.onload = async () => {
@@ -181,8 +182,7 @@
       document.getElementById("restaurantDisplay").textContent = restaurant;
 
       const formData = { bill, restaurant, type, server };
-      vibeQuestions = await fetchVibeQuestions(formData);
-      renderQuestion(currentQuestionIndex);
+      await fetchVibeQuestions(formData);
     };
   </script>
 </body>
