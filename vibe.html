@@ -17,12 +17,12 @@
         extend: {
           colors: {
             brand: {
-              primary: "#0f4c5c", // Deep Teal-Blue
-              accent: "#e36414", // Burnt Sunset Orange
-              heading: "#5f0f40", // Deep Plum Purple
-              text: "#177891", // Teal-Blue
-              alert: "#9a031e", // Strong Red
-              background: "#f9fafb" // Soft Light Gray-White
+              primary: "#0f4c5c",
+              accent: "#e36414",
+              heading: "#5f0f40",
+              text: "#177891",
+              alert: "#9a031e",
+              background: "#f9fafb"
             }
           },
           fontFamily: {
@@ -174,39 +174,10 @@
       if (currentQuestionIndex < vibeQuestions.length) {
         renderQuestion(currentQuestionIndex);
       } else {
-        showResults();
+        const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+        localStorage.setItem("responses", JSON.stringify(sliderResponses));
+        window.location.href = "/tip.html";
       }
-    }
-
-    function showResults() {
-      const container = document.getElementById("vibeQuestions");
-      const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
-
-      const total = sliderResponses.reduce((sum, val) => sum + val, 0);
-      const vibeScore = Math.round(total / sliderResponses.length);
-
-      let tipPercent = 15;
-      if (vibeScore > 60) tipPercent = 18;
-      if (vibeScore > 75) tipPercent = 20;
-      if (vibeScore > 90) tipPercent = 22;
-
-      const generousTipPercent = tipPercent + 3;
-
-      const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
-      const generousTipAmount = (billAmount * generousTipPercent / 100).toFixed(2);
-
-      container.innerHTML = `
-        <h2 class="text-2xl font-heading text-brand-heading mb-4">Vibe Check Complete!</h2>
-        <p class="text-brand-text text-lg mb-2">Your vibe score is <span class="font-bold">${vibeScore}</span> out of 100.</p>
-
-        <div class="bg-white border border-gray-200 rounded-xl p-6 mt-6 max-w-md mx-auto shadow-md">
-          <p class="font-bold text-brand-heading mb-2">Recommended Tip: $${tipAmount} (${tipPercent}%)</p>
-          <p class="text-sm text-brand-text">Want to go above and beyond?</p>
-          <p class="text-brand-accent font-bold text-lg mt-1">Generous Tip: $${generousTipAmount} (${generousTipPercent}%)</p>
-        </div>
-
-        <p class="text-sm text-brand-text mt-4">*Based on a $${billAmount.toFixed(2)} bill</p>
-      `;
     }
 
     async function fetchVibeQuestions(formData) {
@@ -270,6 +241,5 @@
       await fetchVibeQuestions(formData);
     };
   </script>
-  
 </body>
 </html>
