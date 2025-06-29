@@ -83,7 +83,7 @@
       white-space: nowrap;
       overflow: hidden;
       width: 0;
-      animation: typing 4s steps(40, end) forwards, blink 0.75s step-end infinite;
+      animation: typing 3.5s steps(40, end) forwards, blink 0.75s step-end infinite;
     }
 
     @keyframes pulse {
@@ -94,6 +94,8 @@
 
     @keyframes typing {
   from { width: 0 }
+  to { width: 390px }
+}
   to { width: 390px }
 }
       to { width: 360px }
@@ -159,8 +161,8 @@
     }
 
     window.onload = () => {
+      setTimeout(() => { document.getElementById("tip-loader").classList.add("fade-out"); }, 4000);
       setTimeout(() => {
-        document.getElementById("tip-loader").classList.add("fade-out");
         document.getElementById("tipResults").classList.remove("hidden");
         showTipResults();
       }, 3000);
