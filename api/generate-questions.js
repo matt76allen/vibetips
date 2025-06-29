@@ -28,10 +28,10 @@ Required questions (in some form):
 - Ask if drinks were refilled promptly, but only if the restaurant type suggests sit-down service.
 
 Important restrictions:
-- NEVER generate questions that begin with or reference "on a scale of..."
+- NEVER generate questions that begin with or reference "on a scale of..." or "on a scale from..."
 - Do NOT include questions about music, since not all restaurants play music.
 - Questions should be adapted based on the type of restaurant provided (e.g., fast food vs fine dining).
-- Do NOT mention specific food types, instead use general mentions of food.
+- Do NOT mention specific food types; instead, use general mentions of food.
 
 Each question must:
 - Feel casual, friendly, and optionally include a touch of humor or snark to keep it fun.
