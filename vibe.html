@@ -89,13 +89,13 @@
     }
 
     #line1 {
-      animation: typing 3s steps(30, end) forwards;
+      animation: typing 2.5s steps(30, end) forwards;
     }
 
     #line2 {
       visibility: hidden;
-      animation: typing 3s steps(30, end) forwards;
-      animation-delay: 3.1s;
+      animation: typing 2.5s steps(30, end) forwards;
+      animation-delay: 2.6s;
       animation-fill-mode: forwards;
     }
 
@@ -200,7 +200,7 @@
       const loader = document.getElementById("vibe-loader");
       const container = document.getElementById("vibeQuestions");
       const startTime = Date.now();
-      const MIN_LOAD_TIME = 3000;
+      const MIN_LOAD_TIME = 6000;
 
       try {
         const res = await fetch("/api/generate-questions", {
