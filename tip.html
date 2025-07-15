@@ -125,6 +125,13 @@
     </div>
   </div>
 
+  <!-- FLOATING HEADER -->
+  <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
+    <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$0.00</div>
+    <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay"></div>
+    <div class="text-lg font-body text-brand-text" id="restaurantDisplay"></div>
+  </div>
+
   <main class="flex-1">
     <div id="tipResults" class="hidden text-center max-w-md mx-auto">
       <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
@@ -141,13 +148,14 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="text-center text-sm py-6 border-t border-gray-200 mt-[30px]">
-    <p class="mb-2">© 2025 Vibe Tips. All rights reserved.</p>
-    <div class="space-x-4">
-      <a href="#" class="hover:underline">Privacy Policy</a>
-      <a href="#" class="hover:underline">Blog (Coming Soon)</a>
-    </div>
-  </footer>
+  <div id="footer"></div>
+<script>
+  fetch('/footer.html')
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById('footer').innerHTML = data;
+    });
+</script>
 
   <script>
     function showTipResults() {
