@@ -73,7 +73,7 @@
     .typing-text {
       margin-top: 20px;
       font-family: 'Baloo', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       color: #444;
       white-space: nowrap;
       overflow: hidden;
@@ -116,7 +116,7 @@
   </style>
 </head>
 
-<body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-6">
+<body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col px-4 py-6">
   <!-- Loading Screen -->
   <div id="vibe-loader">
     <img src="/vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
@@ -139,14 +139,14 @@
   </div>
 
   <!-- FOOTER -->
-  <div id="footer"></div>
-<script>
-  fetch('/footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('footer').innerHTML = data;
-    });
-</script>
+  <div id="footer" class="mt-auto"></div>
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+      });
+  </script>
 
   <!-- JS Logic -->
   <script>
@@ -186,7 +186,7 @@
             class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition"
             onclick="nextQuestion()"
           >
-            ${index < vibeQuestions.length - 1 ? "Next Question ▶" : "See Results →"}
+            ${index < vibeQuestions.length - 1 ? "Next Question →" : "See Results →"}
           </button>
         </div>
       `;
