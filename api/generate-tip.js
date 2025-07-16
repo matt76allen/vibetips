@@ -27,6 +27,7 @@ Use the following logic:
 Always use the server’s name and include 1–2 highlights based on the vibe answers.
 Never mention the vibe score in the message
 Feel free to be humorous or snarky in the message
+Do not write the message to the server. It is meant to be a recap of the vibe answers for the user.
 
 Here is the data:
 - Vibe Score: ${vibeScore}
