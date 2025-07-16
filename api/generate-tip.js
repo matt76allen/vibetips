@@ -25,6 +25,8 @@ Use the following logic:
 - If vibeScore < 10 → suggest 0–5% and be harsh
 
 Always use the server’s name and include 1–2 highlights based on the vibe answers.
+Never mention the vibe score in the message
+Feel free to be humorous or snarky in the message
 
 Here is the data:
 - Vibe Score: ${vibeScore}
