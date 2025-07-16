@@ -135,15 +135,11 @@
   <main class="flex-1">
     <div id="tipResults" class="hidden text-center max-w-md mx-auto">
       <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
-      <p class="text-lg mb-4" id="vibeScoreText"></p>
+      <p class="text-lg mb-4" id="recapText"></p>
 
       <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md">
-        <p class="font-bold text-brand-heading mb-2" id="tipAmount"></p>
-        <p class="text-sm text-brand-text">Want to go above and beyond?</p>
-        <p class="text-brand-accent font-bold text-lg mt-1" id="generousTipAmount"></p>
+        <p class="font-bold text-brand-heading text-xl" id="tipAmount"></p>
       </div>
-
-      <p class="text-sm text-brand-text mt-4" id="billContext"></p>
     </div>
   </main>
 
@@ -157,42 +153,59 @@
     });
 </script>
 
-  <script>
-    function showTipResults() {
-      const responses = JSON.parse(localStorage.getItem("responses")) || [];
-      const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+<script>
+  async function showTipResults() {
+    const responses = JSON.parse(localStorage.getItem("responses")) || [];
+    const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+    const serverName = localStorage.getItem("server") || "";
+    const restaurantName = localStorage.getItem("restaurant") || "";
+    const vibeAnswers = JSON.parse(localStorage.getItem("vibeDetails")) || [];
 
-      const total = responses.reduce((sum, val) => sum + val, 0);
-      const vibeScore = Math.round(total / responses.length);
+    document.getElementById("billDisplay").textContent = `$${billAmount.toFixed(2)}`;
+    document.getElementById("serverDisplay").textContent = serverName;
+    document.getElementById("restaurantDisplay").textContent = restaurantName;
 
-      let tipPercent = 15;
-      if (vibeScore > 60) tipPercent = 18;
-      if (vibeScore > 75) tipPercent = 20;
-      if (vibeScore > 90) tipPercent = 22;
+    const total = responses.reduce((sum, val) => sum + val, 0);
+    const vibeScore = Math.round(total / responses.length);
 
-      const generousTipPercent = tipPercent + 3;
+    try {
+      const res = await fetch("/api/generate-tip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vibeScore,
+          billAmount,
+          server: serverName,
+          restaurant: restaurantName,
+          vibeAnswers
+        })
+      });
+
+      const data = await res.json();
+      const { tipPercent, recap } = data;
       const tipAmount = (billAmount * tipPercent / 100).toFixed(2);
-      const generousAmount = (billAmount * generousTipPercent / 100).toFixed(2);
 
-      document.getElementById("vibeScoreText").textContent = `Your vibe score is ${vibeScore} out of 100.`;
-      document.getElementById("tipAmount").textContent = `Recommended Tip: $${tipAmount} (${tipPercent}%)`;
-      document.getElementById("generousTipAmount").textContent = `Generous Tip: $${generousAmount} (${generousTipPercent}%)`;
-      document.getElementById("billContext").textContent = `*Based on a $${billAmount.toFixed(2)} bill`;
+      document.getElementById("recapText").textContent = recap;
+      document.getElementById("tipAmount").textContent = `Suggested Tip: $${tipAmount} (${tipPercent}%)`;
+    } catch (error) {
+      console.error("Tip generation failed", error);
+      document.getElementById("recapText").textContent = "Something went wrong calculating your tip.";
     }
+  }
 
-    window.onload = () => {
-      const MIN_LOAD_TIME = 6000;
-      const start = Date.now();
+  window.onload = () => {
+    const MIN_LOAD_TIME = 6000;
+    const start = Date.now();
+    setTimeout(() => {
+      const elapsed = Date.now() - start;
+      const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
       setTimeout(() => {
-        const elapsed = Date.now() - start;
-        const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
-        setTimeout(() => {
-          document.getElementById("tip-loader").classList.add("fade-out");
-          document.getElementById("tipResults").classList.remove("hidden");
-          showTipResults();
-        }, delay);
-      }, 0);
-    };
-  </script>
+        document.getElementById("tip-loader").classList.add("fade-out");
+        document.getElementById("tipResults").classList.remove("hidden");
+        showTipResults();
+      }, delay);
+    }, 0);
+  };
+</script>
 </body>
 </html>
