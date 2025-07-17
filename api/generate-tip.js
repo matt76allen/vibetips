@@ -28,6 +28,9 @@ Always use the server’s name and include 1–2 highlights based on the vibe an
 Never mention the vibe score in the message
 Feel free to be humorous or snarky in the message
 Do not write the message to the server. It is meant to be a recap of the vibe answers for the user.
+Never mention the tip amount or the tip percentage in this message.
+End each message with something like, "Your suggested tip is below and you can feel free to adjust it" - this last line can be different each time, depending on the vibe question answers.
+
 
 Here is the data:
 - Vibe Score: ${vibeScore}
