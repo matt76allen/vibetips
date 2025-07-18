@@ -122,31 +122,25 @@
   </div>
 
   <main class="flex-1">
-    <div id="tipResults" class="hidden text-center max-w-md mx-auto mt-4">
+    <div id="tipResults" class="hidden text-center max-w-md mx-auto mt-6">
       <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
       <p class="text-lg mb-4" id="recapText"></p>
 
       <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-4">
-        <div class="flex items-center justify-center space-x-6">
-          <button onclick="adjust('percent', -1)"><span class="text-3xl text-brand-alert">▼</span></button>
-          <div class="text-3xl font-bold text-brand-accent" id="tipPercentDisplay"></div>
-          <button onclick="adjust('percent', 1)"><span class="text-3xl text-brand-primary">▲</span></button>
+        <div class="flex items-center justify-between">
+          <button onclick="adjust('percent', -1)" class="text-3xl text-brand-alert">▼</button>
+          <div class="text-2xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
+          <button onclick="adjust('percent', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
-        <div class="flex items-center justify-center space-x-6">
-          <button onclick="adjust('tip', -1)"><span class="text-3xl text-brand-alert">▼</span></button>
-          <div>
-            <div class="text-2xl font-bold text-brand-heading" id="tipAmountDisplay"></div>
-            <div class="text-sm text-brand-text">Tip</div>
-          </div>
-          <button onclick="adjust('tip', 1)"><span class="text-3xl text-brand-primary">▲</span></button>
+        <div class="flex items-center justify-between">
+          <button onclick="adjust('tip', -1)" class="text-3xl text-brand-alert">▼</button>
+          <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
+          <button onclick="adjust('tip', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
-        <div class="flex items-center justify-center space-x-6">
-          <button onclick="adjust('total', -1)"><span class="text-3xl text-brand-alert">▼</span></button>
-          <div>
-            <div class="text-2xl font-bold text-brand-heading" id="totalAmountDisplay"></div>
-            <div class="text-sm text-brand-text">Total</div>
-          </div>
-          <button onclick="adjust('total', 1)"><span class="text-3xl text-brand-primary">▲</span></button>
+        <div class="flex items-center justify-between">
+          <button onclick="adjust('total', -1)" class="text-3xl text-brand-alert">▼</button>
+          <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
+          <button onclick="adjust('total', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
       </div>
     </div>
@@ -171,24 +165,22 @@
   function updateDisplays() {
     const tipAmount = billAmount * tipPercent / 100;
     const totalAmount = billAmount + tipAmount;
-    document.getElementById("tipPercentDisplay").textContent = `${tipPercent.toFixed(1)}%`;
-    document.getElementById("tipAmountDisplay").textContent = `$${tipAmount.toFixed(2)}`;
-    document.getElementById("totalAmountDisplay").textContent = `$${totalAmount.toFixed(2)}`;
+    document.getElementById("tipPercentDisplay").textContent = `${Math.round(tipPercent)}%`;
+    document.getElementById("tipAmountDisplay").textContent = `$${tipAmount.toFixed(1)}`;
+    document.getElementById("totalAmountDisplay").textContent = `$${totalAmount.toFixed(1)}`;
   }
 
   function adjust(type, delta) {
     clickSound.play();
-    const tipAmount = billAmount * tipPercent / 100;
-    const totalAmount = billAmount + tipAmount;
+    const currentTip = billAmount * tipPercent / 100;
+    const currentTotal = billAmount + currentTip;
 
     if (type === 'percent') {
-      tipPercent = Math.max(0, tipPercent + delta);
+      tipPercent = Math.max(0, Math.round(tipPercent + delta));
     } else if (type === 'tip') {
-      const currentTip = billAmount * tipPercent / 100;
       const newTip = Math.max(0, Math.round(currentTip + delta));
       tipPercent = (newTip / billAmount) * 100;
     } else if (type === 'total') {
-      const currentTotal = billAmount + (billAmount * tipPercent / 100);
       const newTotal = Math.max(billAmount, Math.round(currentTotal + delta));
       tipPercent = ((newTotal - billAmount) / billAmount) * 100;
     }
