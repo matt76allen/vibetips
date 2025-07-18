@@ -116,7 +116,7 @@
 
   <!-- FLOATING HEADER -->
   <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
-    <div class="text-4xl font-heading font-bold text-brand-heading" id="billDisplay">$0.00</div>
+    <div class="text-4xl font-heading font-bold text-brand-heading mt-2" id="billDisplay">$0.00</div>
     <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay"></div>
     <div class="text-lg font-body text-brand-text" id="restaurantDisplay"></div>
   </div>
@@ -126,20 +126,26 @@
       <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
       <p class="text-lg mb-4" id="recapText"></p>
 
-      <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-4">
-        <div class="flex items-center justify-between">
+      <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-6">
+        <div class="flex items-center justify-between px-6">
           <button onclick="adjust('percent', -1)" class="text-3xl text-brand-alert">▼</button>
-          <div class="text-2xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
+          <div class="text-xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
           <button onclick="adjust('percent', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between px-6">
           <button onclick="adjust('tip', -1)" class="text-3xl text-brand-alert">▼</button>
-          <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-body text-brand-primary mb-1">Tip</span>
+            <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
+          </div>
           <button onclick="adjust('tip', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between px-6">
           <button onclick="adjust('total', -1)" class="text-3xl text-brand-alert">▼</button>
-          <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-body text-brand-primary mb-1">Total</span>
+            <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
+          </div>
           <button onclick="adjust('total', 1)" class="text-3xl text-brand-primary">▲</button>
         </div>
       </div>
@@ -166,8 +172,8 @@
     const tipAmount = billAmount * tipPercent / 100;
     const totalAmount = billAmount + tipAmount;
     document.getElementById("tipPercentDisplay").textContent = `${Math.round(tipPercent)}%`;
-    document.getElementById("tipAmountDisplay").textContent = `$${tipAmount.toFixed(1)}`;
-    document.getElementById("totalAmountDisplay").textContent = `$${totalAmount.toFixed(1)}`;
+    document.getElementById("tipAmountDisplay").textContent = `$${tipAmount.toFixed(2)}`;
+    document.getElementById("totalAmountDisplay").textContent = `$${totalAmount.toFixed(2)}`;
   }
 
   function adjust(type, delta) {
