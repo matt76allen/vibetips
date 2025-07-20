@@ -139,25 +139,37 @@
 
       <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-6">
         <div class="flex items-center justify-between px-6">
-          <button onclick="adjust('percent', -1)" class="text-3xl text-brand-alert">▼</button>
-          <div class="text-xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
-          <button onclick="adjust('percent', 1)" class="text-3xl text-brand-primary">▲</button>
+          <button onclick="adjust('percent', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Tip Percent" class="w-8 h-8" />
+          </button>
+          <div class="text-3xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
+          <button onclick="adjust('percent', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Tip Percent" class="w-8 h-8" />
+          </button>
         </div>
         <div class="flex items-center justify-between px-6">
-          <button onclick="adjust('tip', -1)" class="text-3xl text-brand-alert">▼</button>
+          <button onclick="adjust('tip', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Tip Amount" class="w-8 h-8" />
+          </button>
           <div class="flex flex-col items-center">
             <span class="text-xs font-body text-brand-primary mb-1">Tip</span>
             <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
           </div>
-          <button onclick="adjust('tip', 1)" class="text-3xl text-brand-primary">▲</button>
+          <button onclick="adjust('tip', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Tip Amount" class="w-8 h-8" />
+          </button>
         </div>
         <div class="flex items-center justify-between px-6">
-          <button onclick="adjust('total', -1)" class="text-3xl text-brand-alert">▼</button>
+          <button onclick="adjust('total', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Total Amount" class="w-8 h-8" />
+          </button>
           <div class="flex flex-col items-center">
             <span class="text-xs font-body text-brand-primary mb-1">Total</span>
             <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
           </div>
-          <button onclick="adjust('total', 1)" class="text-3xl text-brand-primary">▲</button>
+          <button onclick="adjust('total', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Total Amount" class="w-8 h-8" />
+          </button>
         </div>
       </div>
     </div>
