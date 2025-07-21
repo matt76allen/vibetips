@@ -50,6 +50,16 @@
       }
     };
   </script>
+  <style>
+    .blink-cursor {
+      border-right: 2px solid #0f4c5c;
+      animation: blink 0.8s steps(1) infinite;
+    }
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #0f4c5c; }
+    }
+  </style>
 </head>
 <body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col justify-between">
   <!-- HEADER -->
@@ -57,7 +67,7 @@
     <img src="/logo.png" alt="Vibe Tips Logo" class="mx-auto w-72 max-w-full mb-4" />
     <h1 class="text-3xl md:text-4xl font-heading text-brand-heading">Good vibes deserve great tips</h1>
     <p class="text-lg md:text-xl font-body text-brand-text mt-2 font-bold">An interactive tip calculator</p>
-<p class="text-sm md:text-base font-body text-brand-text font-bold">Powered by AI</p>
+    <p class="text-sm md:text-base font-body text-brand-text font-bold">Powered by AI</p>
   </header>
 
   <!-- MAIN APP FORM -->
@@ -83,7 +93,9 @@
           <option value="Bar or Pub">Bar or Pub</option>
           <option value="Café or Coffee Shop">Café or Coffee Shop</option>
           <option value="Buffet">Buffet</option>
+          <option value="Other">Other</option>
         </select>
+        <input type="text" id="typeOther" name="typeOther" placeholder="Enter restaurant type..." class="hidden mt-2 w-full px-4 py-2 rounded border border-gray-300 focus:ring-brand-primary focus:border-brand-primary blink-cursor" />
       </div>
 
       <div>
@@ -99,23 +111,37 @@
     </form>
   </main>
 
-   <!-- FOOTER -->
+  <!-- FOOTER -->
   <div id="footer"></div>
-<script>
-  fetch('/footer.html')
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById('footer').innerHTML = data;
-    });
-</script>
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+      });
+  </script>
 
   <script>
+    document.getElementById('type').addEventListener('change', function () {
+      const otherInput = document.getElementById('typeOther');
+      if (this.value === 'Other') {
+        this.classList.add('hidden');
+        otherInput.classList.remove('hidden');
+        otherInput.focus();
+      }
+    });
+
     document.getElementById('tipForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const bill = document.getElementById('bill').value;
       const restaurant = document.getElementById('restaurant').value;
-      const type = document.getElementById('type').value;
+      let type = document.getElementById('type').value;
+      const typeOther = document.getElementById('typeOther').value;
       const server = document.getElementById('server').value;
+
+      if (type === 'Other' && typeOther.trim() !== '') {
+        type = typeOther.trim();
+      }
 
       localStorage.setItem('bill', bill);
       localStorage.setItem('restaurant', restaurant);
