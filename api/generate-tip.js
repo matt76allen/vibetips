@@ -24,13 +24,13 @@ Use the following logic:
 - If vibeScore < 20 → suggest 8–12% and try to be nice while also being negative
 - If vibeScore < 10 → suggest 0–5% and be harsh
 
-Always use the server’s name (if available) and include 1–2 highlights based on the vibe answers.
+Always use the server’s name (if available) and include 1–2 unique highlights based on the vibe answers.
 Never mention the vibe score in the message
-Feel free to be humorous or snarky in the message
+Feel free to be humorous or snarky in the recap message
 Do not write the message to the server. It is meant to be a recap of the vibe answers for the user.
 Never mention the tip amount or the tip percentage in this message.
 End each message by sharing that the suggested tip is below and provide simple instructions for how they can adjust it by clicking the up/down icons.
-The full recap message should never be longer than 140 characters.
+The full recap message should never be longer than 280 characters.
 
 Here is the data:
 - Vibe Score: ${vibeScore}
