@@ -215,9 +215,9 @@
   function updateDisplays() {
     const tipAmount = billAmount * tipPercent / 100;
     const totalAmount = billAmount + tipAmount;
-    document.getElementById("tipPercentDisplay").textContent = ${Math.round(tipPercent)}%;
-    document.getElementById("tipAmountDisplay").textContent = $${tipAmount.toFixed(2)};
-    document.getElementById("totalAmountDisplay").textContent = $${totalAmount.toFixed(2)};
+    document.getElementById("tipPercentDisplay").textContent = `${Math.round(tipPercent)}%`;
+    document.getElementById("tipAmountDisplay").textContent = `$${tipAmount.toFixed(2)}`;
+    document.getElementById("totalAmountDisplay").textContent = `$${totalAmount.toFixed(2)}`;
   }
 
   function adjust(type, delta) {
@@ -245,7 +245,7 @@
     const restaurantName = localStorage.getItem("restaurant") || "";
     const vibeAnswers = JSON.parse(localStorage.getItem("vibeDetails")) || [];
 
-    document.getElementById("billDisplay").textContent = $${billAmount.toFixed(2)};
+    document.getElementById("billDisplay").textContent = `$${billAmount.toFixed(2)}`;
     document.getElementById("serverDisplay").textContent = serverName;
     document.getElementById("restaurantDisplay").textContent = restaurantName;
 
