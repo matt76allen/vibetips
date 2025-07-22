@@ -30,6 +30,7 @@ Feel free to be humorous or snarky in the message
 Do not write the message to the server. It is meant to be a recap of the vibe answers for the user.
 Never mention the tip amount or the tip percentage in this message.
 End each message by sharing that the suggested tip is below and provide simple instructions for how they can adjust it by clicking the up/down icons.
+The full recap message should never be longer than 140 characters.
 
 Here is the data:
 - Vibe Score: ${vibeScore}
