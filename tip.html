@@ -227,6 +227,14 @@
       localStorage.setItem(type, value);
     }
   }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.getElementById('tip-loader').classList.add('fade-out');
+      document.getElementById('tipResults').classList.remove('hidden');
+      updateDisplays();
+    }, 2500);
+  });
 </script>
 <script src="/scripts/tip.js"></script>
 </body>
