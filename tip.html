@@ -8,234 +8,288 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
   gtag('config', 'G-XZ95GHHT7L');
 </script>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <!-- Page Title -->
 <title>Tip Calculator</title>
+
+<!-- Meta Description -->
 <meta name="description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
+
+<!-- Open Graph Tags -->
 <meta property="og:title" content="Tip Calculator" />
 <meta property="og:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
 <meta property="og:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
 <meta property="og:url" content="https://vibetips.ai/tip.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Vibe Tips" />
+
+<!-- Twitter Card Tags -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Tip Calculator" />
 <meta name="twitter:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
 <meta name="twitter:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="manifest" href="/site.webmanifest" />
-<link rel="shortcut icon" href="/favicon.ico" />
+<!-- Favicon & Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="shortcut icon" href="/favicon.ico" />
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          brand: {
-            primary: "#0f4c5c",
-            accent: "#e36414",
-            heading: "#5f0f40",
-            text: "#177891",
-            alert: "#9a031e",
-            background: "#f9fafb"
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: "#0f4c5c",
+              accent: "#e36414",
+              heading: "#5f0f40",
+              text: "#177891",
+              alert: "#9a031e",
+              background: "#f9fafb"
+            }
+          },
+          fontFamily: {
+            heading: ["Baloo", "cursive"],
+            body: ["Nunito", "sans-serif"]
           }
-        },
-        fontFamily: {
-          heading: ["Baloo", "cursive"],
-          body: ["Nunito", "sans-serif"]
         }
       }
-    }
-  };
-</script>
-<link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
 
-<style>
-  html, body {
-    height: 100%;
-  }
-  body {
-    display: flex;
-    flex-direction: column;
-  }
-  main {
-    flex: 1;
-  }
-  #tip-loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 1s ease-out;
-  }
-  .fade-out {
-    opacity: 0 !important;
-    pointer-events: none;
-  }
-  .vibe-logo {
-    width: 120px;
-    animation: pulse 2s infinite;
-    filter: drop-shadow(0 0 10px #f26464);
-  }
-  .typing-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  .typing-text {
-    font-family: 'Baloo', sans-serif;
-    font-size: 18px;
-    color: #444;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 280px;
-    text-align: center;
-    display: inline-block;
-  }
-  #line1 {
-    animation: typing 2.5s steps(30, end) forwards;
-  }
-  #line2 {
-    visibility: hidden;
-    animation: typing 2.5s steps(30, end) forwards;
-    animation-delay: 2.6s;
-    animation-fill-mode: forwards;
-  }
-  @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.85; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  @keyframes typing {
-    from { width: 0; visibility: visible; }
-    to { width: 280px; visibility: visible; }
-  }
-</style>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+    }
+    #tip-loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+    .fade-out {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+    .vibe-logo {
+      width: 120px;
+      animation: pulse 2s infinite;
+      filter: drop-shadow(0 0 10px #f26464);
+    }
+    .typing-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .typing-text {
+      font-family: 'Baloo', sans-serif;
+      font-size: 18px;
+      color: #444;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 280px;
+      text-align: center;
+      display: inline-block;
+    }
+    #line1 {
+      animation: typing 2.5s steps(30, end) forwards;
+    }
+    #line2 {
+      visibility: hidden;
+      animation: typing 2.5s steps(30, end) forwards;
+      animation-delay: 2.6s;
+      animation-fill-mode: forwards;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.85; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes typing {
+      from { width: 0; visibility: visible; }
+      to { width: 280px; visibility: visible; }
+    }
+  </style>
 </head>
 <body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-10">
-<div id="tip-loader">
-  <img src="/vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
-  <div class="typing-wrapper">
-    <div class="typing-text" id="line1">AI is calculating your tip</div>
-    <div class="typing-text" id="line2">based on the vibe...</div>
-  </div>
-</div>
-
-<div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
-  <div class="flex justify-center items-center gap-2">
-    <span contenteditable="true" onblur="updateEditable('bill', this)" onkeydown="checkEnter(event)" id="billDisplay" class="text-4xl font-heading font-bold text-brand-heading outline-none">$0.00</span>
-    <img src="/edit.svg" alt="Edit Bill" class="w-4 h-4 cursor-pointer opacity-60" onclick="enableEdit('billDisplay')" />
-  </div>
-  <div class="flex justify-center items-center gap-2">
-    <span contenteditable="true" onblur="updateEditable('server', this)" onkeydown="checkEnter(event)" id="serverDisplay" class="text-2xl font-heading text-brand-heading outline-none"></span>
-    <img src="/edit.svg" alt="Edit Server" class="w-4 h-4 cursor-pointer opacity-60" onclick="enableEdit('serverDisplay')" />
-  </div>
-  <div class="flex justify-center items-center gap-2">
-    <span contenteditable="true" onblur="updateEditable('restaurant', this)" onkeydown="checkEnter(event)" id="restaurantDisplay" class="text-lg font-body text-brand-text outline-none"></span>
-    <img src="/edit.svg" alt="Edit Restaurant" class="w-4 h-4 cursor-pointer opacity-60" onclick="enableEdit('restaurantDisplay')" />
-  </div>
-</div>
-
-<main class="flex-1">
-  <div id="tipResults" class="hidden text-center max-w-md mx-auto mt-6">
-    <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
-    <p class="text-lg mb-4" id="recapText"></p>
-
-    <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-6">
-      <div class="flex items-center justify-between px-6">
-        <button onclick="adjust('percent', -1)" class="active:scale-90 transition transform">
-          <img src="/down-arrow.svg" alt="Decrease Tip Percent" class="w-8 h-8" />
-        </button>
-        <div class="text-3xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
-        <button onclick="adjust('percent', 1)" class="active:scale-90 transition transform">
-          <img src="/up-arrow.svg" alt="Increase Tip Percent" class="w-8 h-8" />
-        </button>
-      </div>
-      <div class="flex items-center justify-between px-6">
-        <button onclick="adjust('tip', -1)" class="active:scale-90 transition transform">
-          <img src="/down-arrow.svg" alt="Decrease Tip Amount" class="w-8 h-8" />
-        </button>
-        <div class="flex flex-col items-center">
-          <span class="text-xs font-body text-brand-primary mb-1">Tip</span>
-          <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
-        </div>
-        <button onclick="adjust('tip', 1)" class="active:scale-90 transition transform">
-          <img src="/up-arrow.svg" alt="Increase Tip Amount" class="w-8 h-8" />
-        </button>
-      </div>
-      <div class="flex items-center justify-between px-6">
-        <button onclick="adjust('total', -1)" class="active:scale-90 transition transform">
-          <img src="/down-arrow.svg" alt="Decrease Total Amount" class="w-8 h-8" />
-        </button>
-        <div class="flex flex-col items-center">
-          <span class="text-xs font-body text-brand-primary mb-1">Total</span>
-          <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
-        </div>
-        <button onclick="adjust('total', 1)" class="active:scale-90 transition transform">
-          <img src="/up-arrow.svg" alt="Increase Total Amount" class="w-8 h-8" />
-        </button>
-      </div>
+  <!-- Loading Screen -->
+  <div id="tip-loader">
+    <img src="/vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
+    <div class="typing-wrapper">
+      <div class="typing-text" id="line1">AI is calculating your tip</div>
+      <div class="typing-text" id="line2">based on the vibe...</div>
     </div>
   </div>
-</main>
 
-<div id="footer"></div>
+  <!-- FLOATING HEADER -->
+  <div id="vibeHeader" class="sticky top-0 bg-brand-background z-10 pb-4 border-b border-gray-200 text-center">
+    <div class="text-4xl font-heading font-bold text-brand-heading mt-2" id="billDisplay">$0.00</div>
+    <div class="text-2xl font-heading text-brand-heading mt-1" id="serverDisplay"></div>
+    <div class="text-lg font-body text-brand-text" id="restaurantDisplay"></div>
+  </div>
+
+  <main class="flex-1">
+    <div id="tipResults" class="hidden text-center max-w-md mx-auto mt-6">
+      <h1 class="text-3xl font-heading text-brand-heading font-bold mb-4">Vibe Check Complete!</h1>
+      <p class="text-lg mb-4" id="recapText"></p>
+
+      <div class="bg-white border border-gray-200 rounded-xl p-6 mt-4 shadow-md space-y-6">
+        <div class="flex items-center justify-between px-6">
+          <button onclick="adjust('percent', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Tip Percent" class="w-8 h-8" />
+          </button>
+          <div class="text-3xl font-heading font-semibold text-brand-accent" id="tipPercentDisplay"></div>
+          <button onclick="adjust('percent', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Tip Percent" class="w-8 h-8" />
+          </button>
+        </div>
+        <div class="flex items-center justify-between px-6">
+          <button onclick="adjust('tip', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Tip Amount" class="w-8 h-8" />
+          </button>
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-body text-brand-primary mb-1">Tip</span>
+            <div class="text-3xl font-heading font-semibold text-brand-heading" id="tipAmountDisplay"></div>
+          </div>
+          <button onclick="adjust('tip', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Tip Amount" class="w-8 h-8" />
+          </button>
+        </div>
+        <div class="flex items-center justify-between px-6">
+          <button onclick="adjust('total', -1)" class="active:scale-90 transition transform">
+            <img src="/down-arrow.svg" alt="Decrease Total Amount" class="w-8 h-8" />
+          </button>
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-body text-brand-primary mb-1">Total</span>
+            <div class="text-3xl font-heading font-semibold text-brand-heading" id="totalAmountDisplay"></div>
+          </div>
+          <button onclick="adjust('total', 1)" class="active:scale-90 transition transform">
+            <img src="/up-arrow.svg" alt="Increase Total Amount" class="w-8 h-8" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
 <script>
   fetch('/footer.html')
     .then(res => res.text())
     .then(data => {
       document.getElementById('footer').innerHTML = data;
     });
-
-  function enableEdit(id) {
-    document.getElementById(id).focus();
-  }
-
-  function checkEnter(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      e.target.blur();
-    }
-  }
-
-  function updateEditable(type, el) {
-    const value = el.textContent.trim();
-    if (type === 'bill') {
-      const num = parseFloat(value.replace(/[^0-9.]/g, ''));
-      if (!isNaN(num)) {
-        localStorage.setItem('bill', num);
-        billAmount = num;
-        el.textContent = `$${num.toFixed(2)}`;
-        updateDisplays();
-      }
-    } else {
-      localStorage.setItem(type, value);
-    }
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      document.getElementById('tip-loader').classList.add('fade-out');
-      document.getElementById('tipResults').classList.remove('hidden');
-      updateDisplays();
-    }, 2500);
-  });
 </script>
-<script src="/scripts/tip.js"></script>
+
+<script>
+  let billAmount = 0;
+  let tipPercent = 20;
+
+  const clickSound = new Audio("https://www.soundjay.com/button/beep-07.wav");
+
+  function updateDisplays() {
+    const tipAmount = billAmount * tipPercent / 100;
+    const totalAmount = billAmount + tipAmount;
+    document.getElementById("tipPercentDisplay").textContent = ${Math.round(tipPercent)}%;
+    document.getElementById("tipAmountDisplay").textContent = $${tipAmount.toFixed(2)};
+    document.getElementById("totalAmountDisplay").textContent = $${totalAmount.toFixed(2)};
+  }
+
+  function adjust(type, delta) {
+    clickSound.play();
+    const currentTip = billAmount * tipPercent / 100;
+    const currentTotal = billAmount + currentTip;
+
+    if (type === 'percent') {
+      tipPercent = Math.max(0, Math.round(tipPercent + delta));
+    } else if (type === 'tip') {
+      const newTip = Math.max(0, Math.round(currentTip + delta));
+      tipPercent = (newTip / billAmount) * 100;
+    } else if (type === 'total') {
+      const newTotal = Math.max(billAmount, Math.round(currentTotal + delta));
+      tipPercent = ((newTotal - billAmount) / billAmount) * 100;
+    }
+
+    updateDisplays();
+  }
+
+  async function showTipResults() {
+    const responses = JSON.parse(localStorage.getItem("responses")) || [];
+    billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+    const serverName = localStorage.getItem("server") || "";
+    const restaurantName = localStorage.getItem("restaurant") || "";
+    const vibeAnswers = JSON.parse(localStorage.getItem("vibeDetails")) || [];
+
+    document.getElementById("billDisplay").textContent = $${billAmount.toFixed(2)};
+    document.getElementById("serverDisplay").textContent = serverName;
+    document.getElementById("restaurantDisplay").textContent = restaurantName;
+
+    const total = responses.reduce((sum, val) => sum + val, 0);
+    const vibeScore = Math.round(total / responses.length);
+
+    try {
+      const res = await fetch("/api/generate-tip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vibeScore,
+          billAmount,
+          server: serverName,
+          restaurant: restaurantName,
+          vibeAnswers
+        })
+      });
+
+      const data = await res.json();
+      tipPercent = data.tipPercent;
+      const recap = data.recap;
+
+      document.getElementById("recapText").textContent = recap;
+      updateDisplays();
+    } catch (error) {
+      console.error("Tip generation failed", error);
+      document.getElementById("recapText").textContent = "Something went wrong calculating your tip.";
+    }
+  }
+
+  window.onload = () => {
+    const MIN_LOAD_TIME = 6000;
+    const start = Date.now();
+    setTimeout(() => {
+      const elapsed = Date.now() - start;
+      const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
+      setTimeout(() => {
+        document.getElementById("tip-loader").classList.add("fade-out");
+        document.getElementById("tipResults").classList.remove("hidden");
+        showTipResults();
+      }, delay);
+    }, 0);
+  };
+</script>
 </body>
 </html>
