@@ -1,82 +1,45 @@
-// generate-share.js (frontend)
+// /api/generate-share.js (backend)
 
-// Function to type the message with animation
-function typeMessage(text, containerId) {
-  const container = document.getElementById(containerId);
-  container.textContent = "";
-
-  let index = 0;
-  const total = text.length;
-
-  function getDelay(i) {
-    if (i < 20) return 100; // slow typing for first ~20 chars (~2s)
-    return Math.max(10, 2000 / (total - 20)); // faster typing for remainder (~2s)
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  function typeChar() {
-    if (index < total) {
-      container.textContent += text.charAt(index);
-      index++;
-      setTimeout(typeChar, getDelay(index));
-    }
-  }
+  const { restaurant, server, vibeScore } = req.body;
 
-  typeChar();
-}
+  const prompt = `Write a short, fun social media post in the first person to thank a server. The restaurant was called ${restaurant}, the server's name was ${server}, and the vibe was described as ${vibeScore}.
 
-// Function to fetch AI-generated message and display it
-async function generateShareMessage() {
-  const container = document.getElementById("message-container");
-  if (!container) return;
+Guidelines:
+- Total message must be 280 characters or fewer, including link and hashtag.
+- Write in first person.
+- Highlight the dining experience — especially if the vibe score was great.
+- Always keep the tone positive. If the vibe was bad, use snark or sarcasm.
+- Do NOT mention the bill amount or tip percentage.
+- The message MUST mention the restaurant name and MAY mention the server name.
+- The message MUST include the hashtag #VibeTips
+- The message MUST include the website 'vibetips.ai' at the end, ideally in a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.`;
 
   try {
-    const restaurant = localStorage.getItem("restaurant") || "the restaurant";
-    const server = localStorage.getItem("server") || "our server";
-    const vibeScore = localStorage.getItem("vibeScore") || "a great vibe";
-
-    const response = await fetch("/api/generate-share", {
+    const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ restaurant, server, vibeScore })
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.8,
+        max_tokens: 300
+      })
     });
 
-    const data = await response.json();
+    const data = await openaiRes.json();
 
-    if (!response.ok || !data.message) {
-      throw new Error(data.error || "Unknown error from /api/generate-share");
-    }
-
-    const aiMessage = data.message;
-    typeMessage(aiMessage, "message-container");
-
-    // Attach copy functionality
-    const copyButton = document.getElementById("copy-button");
-    if (copyButton) {
-      copyButton.onclick = () => {
-        navigator.clipboard.writeText(aiMessage)
-          .then(() => {
-            copyButton.textContent = "Copied!";
-            setTimeout(() => {
-              copyButton.textContent = "Copy Message";
-            }, 2000);
-          })
-          .catch(() => {
-            alert("Failed to copy message.");
-          });
-      };
-    }
-
-    // Update share links
-    const encodedMessage = encodeURIComponent(aiMessage);
-    document.getElementById("share-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=&quote=${encodedMessage}`;
-    document.getElementById("share-twitter").href = `https://twitter.com/intent/tweet?text=${encodedMessage}`;
-    document.getElementById("share-email").href = `mailto:?subject=Good Vibes&body=${encodedMessage}`;
-
-  } catch (error) {
-    container.textContent = "Oops! Something went wrong while generating your message.";
-    console.error("Error:", error);
+    const message = data.choices?.[0]?.message?.content?.trim() || "Thanks for the great vibes!";
+    res.status(200).json({ message });
+  } catch (err) {
+    console.error("❌ Error generating share message:", err);
+    res.status(500).json({ error: "Failed to generate share message" });
   }
 }
-
-// Kick off message generation after page loads
-window.addEventListener("DOMContentLoaded", generateShareMessage);
