@@ -1,4 +1,4 @@
-// generate-share.js
+// generate-share.js (frontend)
 
 // Function to type the message with animation
 function typeMessage(text, containerId) {
@@ -24,55 +24,29 @@ function typeMessage(text, containerId) {
   typeChar();
 }
 
-// Reuse existing OpenAI function logic
-async function callOpenAI(prompt) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENAI_API_KEY}` // Assumes OPENAI_API_KEY is defined globally or imported
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.8
-    })
-  });
-
-  const data = await response.json();
-  return data.choices[0].message.content.trim();
-}
-
 // Function to fetch AI-generated message and display it
 async function generateShareMessage() {
   const container = document.getElementById("message-container");
-
-  // Fallback in case container is missing
   if (!container) return;
 
   try {
-    // Pull data from localStorage
     const restaurant = localStorage.getItem("restaurant") || "the restaurant";
     const server = localStorage.getItem("server") || "our server";
     const vibeScore = localStorage.getItem("vibeScore") || "a great vibe";
 
-    // Construct the prompt with AI rules
-    const prompt = `Write a short, fun social media post in the first person to thank a server. The restaurant was called ${restaurant}, the server's name was ${server}, and the vibe was described as ${vibeScore}.
+    const response = await fetch("/api/generate-share", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ restaurant, server, vibeScore })
+    });
 
-Guidelines:
-- Total message must be 280 characters or fewer, including link and hashtag.
-- Write in first person.
-- Highlight the dining experience — especially if the vibe score was great.
-- Always keep the tone positive. If the vibe was bad, use snark or sarcasm.
-- Do NOT mention the bill amount or tip percentage.
-- The message MUST mention the restaurant name and MAY mention the server name.
-- The message MUST include the hashtag #VibeTips
-- The message MUST include the website 'vibetips.ai' at the end, ideally in a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.`;
+    const data = await response.json();
 
-    // Call OpenAI API using shared function
-    const aiMessage = await callOpenAI(prompt);
+    if (!response.ok || !data.message) {
+      throw new Error(data.error || "Unknown error from /api/generate-share");
+    }
 
-    // Animate the message using the typeMessage function
+    const aiMessage = data.message;
     typeMessage(aiMessage, "message-container");
 
     // Attach copy functionality
@@ -92,7 +66,7 @@ Guidelines:
       };
     }
 
-    // Optional: Update share links
+    // Update share links
     const encodedMessage = encodeURIComponent(aiMessage);
     document.getElementById("share-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=&quote=${encodedMessage}`;
     document.getElementById("share-twitter").href = `https://twitter.com/intent/tweet?text=${encodedMessage}`;
@@ -100,7 +74,7 @@ Guidelines:
 
   } catch (error) {
     container.textContent = "Oops! Something went wrong while generating your message.";
-    console.error("Error generating message:", error);
+    console.error("Error:", error);
   }
 }
 
