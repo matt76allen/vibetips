@@ -19,8 +19,8 @@ Guidelines:
 - Always keep the tone positive. If the vibe was bad, use snark or sarcasm.
 - Do NOT mention the bill amount or tip percentage.
 - The message MUST mention the restaurant name and MAY mention the server name.
-- The message MUST include the hashtag #VibeTips on its own line before the final line.
-- The message MUST include the website 'vibetips.ai' on its own line at the very end.
+- The message MUST include the hashtag #VibeTips within the last sentence where it mentions using the app for fun and easy tip calculations.
+- The message MUST include the website 'vibetips.ai' at the very end, after the last sentence.
 - Do NOT use an @ mention in the message.
 - Do NOT reference or imply any time of day (e.g., morning, brunch, lunch, dinner, night, or phrases like "night out" or "evening vibes").`;
 
