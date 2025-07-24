@@ -9,6 +9,9 @@ export default async function handler(req, res) {
 
   const prompt = `Write a short, fun social media post in the first person to thank a server. The restaurant was called ${restaurant}, the server's name was ${server}, and the vibe was described as ${vibeScore}.
 
+Format Example:
+Shoutout to [server] at [restaurant] for making the meal amazing. The vibe was on point and the service was top notch. Checkout #VibeTips for fun & easy tip calculation. vibetips.ai
+
 Guidelines:
 - Total message must be 280 characters or fewer, including link and hashtag.
 - Write in first person.
@@ -16,10 +19,11 @@ Guidelines:
 - Always keep the tone positive. If the vibe was bad, use snark or sarcasm.
 - Do NOT mention the bill amount or tip percentage.
 - The message MUST mention the restaurant name and MAY mention the server name.
-- The message MUST include the hashtag #VibeTips
-- The message MUST include the website 'vibetips.ai' at the very end, after the last sentence which is ideally a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.
-- Do NOT use an @ mention in the message
+- The message MUST include the hashtag #VibeTips on its own line before the final line.
+- The message MUST include the website 'vibetips.ai' on its own line at the very end.
+- Do NOT use an @ mention in the message.
 - Do NOT reference or imply any time of day (e.g., morning, brunch, lunch, dinner, night, or phrases like "night out" or "evening vibes").`;
+
 
   
   try {
