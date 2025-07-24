@@ -17,9 +17,9 @@ Guidelines:
 - Do NOT mention the bill amount or tip percentage.
 - The message MUST mention the restaurant name and MAY mention the server name.
 - The message MUST include the hashtag #VibeTips
-- The message MUST include the website 'vibetips.ai' at the very end, after the last sentence which is ideally a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.`;
+- The message MUST include the website 'vibetips.ai' at the very end, after the last sentence which is ideally a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.`
 - Do NOT use an @ mention in the message
-- Do NOT mention the time of day (morning, afternoon, evening, night) in the message.
+- Do NOT mention the time of day (morning, afternoon, evening, night) in the message.;
   
   try {
     const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
