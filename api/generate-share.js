@@ -19,7 +19,7 @@ Guidelines:
 - The message MUST include the hashtag #VibeTips
 - The message MUST include the website 'vibetips.ai' at the very end, after the last sentence which is ideally a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.
 - Do NOT use an @ mention in the message
-- Do NOT mention the time of day (morning, afternoon, evening, night) in the message.`;
+- Do NOT reference or imply any time of day (e.g., morning, brunch, lunch, dinner, night, or phrases like "night out" or "evening vibes").`;
 
   
   try {
