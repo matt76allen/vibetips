@@ -24,6 +24,25 @@ function typeMessage(text, containerId) {
   typeChar();
 }
 
+// Reuse existing OpenAI function logic
+async function callOpenAI(prompt) {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${OPENAI_API_KEY}` // Assumes OPENAI_API_KEY is defined globally or imported
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.8
+    })
+  });
+
+  const data = await response.json();
+  return data.choices[0].message.content.trim();
+}
+
 // Function to fetch AI-generated message and display it
 async function generateShareMessage() {
   const container = document.getElementById("message-container");
@@ -50,17 +69,8 @@ Guidelines:
 - The message MUST include the hashtag #VibeTips
 - The message MUST include the website 'vibetips.ai' at the end, ideally in a short sentence saying how Vibe Tips made it fun or easy to calculate the tip.`;
 
-    // Fetch AI-generated message from server (this assumes a backend API endpoint exists)
-    const response = await fetch("/api/generate-message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt }),
-    });
-
-    const data = await response.json();
-    const aiMessage = data.message || "Thanks for the great vibes!";
+    // Call OpenAI API using shared function
+    const aiMessage = await callOpenAI(prompt);
 
     // Animate the message using the typeMessage function
     typeMessage(aiMessage, "message-container");
