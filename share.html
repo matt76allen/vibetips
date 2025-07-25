@@ -7,15 +7,12 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-XZ95GHHT7L');
   </script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Share the Vibe</title>
-
   <meta name="description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
 
   <!-- Open Graph Tags -->
@@ -69,26 +66,40 @@
   <!-- HEADER -->
   <header class="text-center py-10 px-4">
     <img src="/logo.png" alt="Vibe Tips Logo" class="mx-auto w-72 max-w-full mb-4" />
-    <h1 class="text-3xl md:text-4xl font-heading text-brand-heading">Good vibes deserve great tips</h1>
+    <h1 class="text-3xl md:text-4xl font-heading text-brand-heading mb-4">Good vibes deserve great tips</h1>
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="max-w-2xl mx-auto px-4 py-8">
-    <div id="message-container" class="bg-white shadow-md rounded-xl p-6 text-lg whitespace-pre-wrap min-h-[150px]">
-      Generating your message...
+  <main class="max-w-2xl mx-auto px-4 py-4">
+    <div id="message-container" class="bg-white shadow-md rounded-xl p-6 text-lg whitespace-pre-wrap min-h-[150px] font-normal flex items-center justify-center text-center">
+      <span id="loading-text" class="text-2xl font-semibold animate-pulse">Generating your message...</span>
     </div>
 
-    <div class="text-center mt-6">
-      <button id="copy-button" class="bg-brand-primary text-white px-6 py-2 rounded-xl hover:bg-brand-accent transition">Copy Message</button>
+    <div class="flex justify-center mt-6">
+      <button id="copy-button" class="flex items-center gap-2 px-8 py-4 rounded-xl text-white bg-brand-primary hover:bg-brand-text transform transition-transform hover:scale-105 text-lg font-bold">
+        <img src="/share-icon.svg" alt="Share" class="w-6 h-6" />
+        Copy & Share
+      </button>
     </div>
 
-    <div class="text-center mt-6">
-      <p class="text-sm">Share your vibe on your favorite platform!</p>
-      <div class="flex justify-center gap-4 mt-2">
-        <a href="#" id="share-facebook" class="underline">Facebook</a>
-        <a href="#" id="share-twitter" class="underline">X (Twitter)</a>
-        <a href="#" id="share-email" class="underline">Email</a>
-      </div>
+    <div class="flex flex-col md:flex-row justify-center gap-4 mt-4 px-4">
+      <button onclick="window.location.reload()" class="flex items-center gap-2 px-6 py-3 rounded-xl border-[3px] border-brand-heading text-brand-heading bg-white transform transition-transform hover:scale-105 font-bold">
+        <img src="/regenerate-icon.svg" alt="Regenerate" class="w-5 h-5" />
+        Regenerate Text
+      </button>
+      <button onclick="window.location.href='index.html'" class="flex items-center gap-2 px-6 py-3 rounded-xl border-[3px] border-brand-alert text-brand-alert bg-white transform transition-transform hover:scale-105 font-bold">
+        <img src="/restart-icon.svg" alt="Restart" class="w-5 h-5" />
+        Restart Vibe Check
+      </button>
+    </div>
+
+    <div class="text-center mt-4 text-sm px-6 text-brand-heading">
+      <p>
+        Share the vibe on your favorite social platform like 
+        <a href="#" id="share-facebook" class="underline" target="_blank" rel="noopener">Facebook</a> or 
+        <a href="#" id="share-twitter" class="underline" target="_blank" rel="noopener">X</a>.
+        Feel free to add your own pictures or check-in information.
+      </p>
     </div>
   </main>
 
@@ -106,6 +117,9 @@
     function typeMessage(text, containerId) {
       const container = document.getElementById(containerId);
       container.textContent = "";
+      container.classList.remove("items-center", "justify-center", "text-center");
+      container.classList.add("text-left");
+      container.style.fontWeight = 400;
 
       let index = 0;
       const total = text.length;
@@ -128,6 +142,7 @@
 
     async function generateShareMessage() {
       const container = document.getElementById("message-container");
+      const loadingText = document.getElementById("loading-text");
       if (!container) return;
 
       try {
@@ -148,7 +163,13 @@
         }
 
         const aiMessage = data.message;
-        typeMessage(aiMessage, "message-container");
+
+        // Fade out loading text before typing message
+        loadingText.classList.add("opacity-0");
+        setTimeout(() => {
+          loadingText.remove();
+          typeMessage(aiMessage, "message-container");
+        }, 1000);
 
         const copyButton = document.getElementById("copy-button");
         if (copyButton) {
@@ -157,19 +178,22 @@
               .then(() => {
                 copyButton.textContent = "Copied!";
                 setTimeout(() => {
-                  copyButton.textContent = "Copy Message";
+                  copyButton.textContent = "Copy & Share";
                 }, 2000);
               })
               .catch(() => {
                 alert("Failed to copy message.");
               });
+
+            if (navigator.share) {
+              navigator.share({ text: aiMessage });
+            }
           };
         }
 
         const encodedMessage = encodeURIComponent(aiMessage);
         document.getElementById("share-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=&quote=${encodedMessage}`;
         document.getElementById("share-twitter").href = `https://twitter.com/intent/tweet?text=${encodedMessage}`;
-        document.getElementById("share-email").href = `mailto:?subject=Good Vibes&body=${encodedMessage}`;
 
       } catch (error) {
         container.textContent = "Oops! Something went wrong while generating your message.";
