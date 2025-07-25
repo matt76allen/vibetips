@@ -59,11 +59,38 @@
           boxShadow: {
             glow: "0 0 10px #0f4c5c",
             glowHover: "0 0 18px #177891"
+          },
+          keyframes: {
+            typing: {
+              from: { width: '0' },
+              to: { width: '100%' }
+            },
+            blink: {
+              '50%': { borderColor: 'transparent' }
+            },
+            fadeOut: {
+              from: { opacity: '1' },
+              to: { opacity: '0' }
+            }
+          },
+          animation: {
+            typing: 'typing 2s steps(22) forwards',
+            blink: 'blink 1s step-end infinite',
+            fadeOut: 'fadeOut 1s ease-in-out forwards'
           }
         }
       }
     };
   </script>
+  <style>
+    #loading-text.typing {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid #0f4c5c;
+      width: 0;
+      animation: typing 2s steps(22) forwards, blink 1s step-end infinite;
+    }
+  </style>
 </head>
 <body class="bg-brand-background font-body text-brand-text">
 
@@ -76,7 +103,7 @@
   <!-- MAIN CONTENT -->
   <main class="max-w-2xl mx-auto px-4 py-4">
     <div id="message-container" class="bg-white shadow-md rounded-xl p-6 text-lg whitespace-pre-wrap min-h-[150px] font-normal flex items-center justify-center text-center">
-      <span id="loading-text" class="text-2xl font-semibold animate-pulse">Generating your message...</span>
+      <span id="loading-text" class="text-2xl font-semibold typing">Generating your message...</span>
     </div>
 
     <div class="flex justify-center mt-[10px]">
@@ -168,11 +195,13 @@
 
         const aiMessage = data.message;
 
-        loadingText.classList.add("opacity-0");
         setTimeout(() => {
-          loadingText.remove();
-          typeMessage(aiMessage, "message-container");
-        }, 1000);
+          loadingText.classList.add("animate-fadeOut");
+          setTimeout(() => {
+            loadingText.remove();
+            typeMessage(aiMessage, "message-container");
+          }, 1000);
+        }, 2200);
 
         const copyButton = document.getElementById("copy-button");
         if (copyButton) {
