@@ -59,6 +59,9 @@
           boxShadow: {
             glow: "0 0 10px #0f4c5c",
             glowHover: "0 0 18px #177891"
+          },
+          spacing: {
+            tight: "6px"
           }
         }
       }
@@ -68,16 +71,16 @@
 <body class="bg-brand-background font-body text-brand-text">
 
   <!-- HEADER -->
-  <header class="text-center py-10 px-4">
+  <header class="text-center pt-10 pb-2 px-4">
     <img src="/logo.png" alt="Vibe Tips Logo" class="mx-auto w-72 max-w-full mb-4" />
-    <h1 class="text-3xl md:text-4xl font-heading text-brand-heading mb-1">Good vibes deserve great tips</h1>
+    <h1 class="text-3xl md:text-4xl font-heading text-brand-heading mb-2">Good vibes deserve great tips</h1>
   </header>
 
   <!-- MAIN CONTENT -->
   <main class="max-w-2xl mx-auto px-2 pt-0 pb-4">
-    <div id="message-container" class="bg-white shadow-md rounded-xl p-6 text-lg whitespace-pre-wrap min-h-[150px] font-normal text-left mt-2 mb-8"></div>
+    <div id="message-container" class="bg-white shadow-md rounded-xl p-6 text-lg whitespace-pre-wrap min-h-[150px] font-normal text-left mt-1 mb-10"></div>
 
-    <div class="flex justify-center mb-8">
+    <div class="flex justify-center mb-6">
       <button id="copy-button" class="flex items-center gap-2 px-10 py-5 rounded-xl text-white bg-brand-primary hover:bg-brand-text transform transition-transform hover:scale-110 text-xl font-bold shadow-glow hover:shadow-glowHover">
         <img src="/share-icon.svg" alt="Share" class="w-6 h-6" />
         Copy & Share
@@ -85,11 +88,11 @@
     </div>
 
     <div class="flex flex-col md:flex-row justify-center gap-4 px-4 items-center">
-      <button onclick="window.location.reload()" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-[3px] border-brand-heading text-brand-heading bg-white transform transition-transform hover:scale-105 font-bold w-60 max-w-full">
+      <button onclick="window.location.reload()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-[3px] border-brand-heading text-brand-heading bg-white transform transition-transform hover:scale-105 font-bold w-56 max-w-full">
         <img src="/regenerate-icon.svg" alt="Regenerate" class="w-5 h-5" />
         Regenerate Text
       </button>
-      <button onclick="window.location.href='index.html'" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-[3px] border-brand-alert text-brand-alert bg-white transform transition-transform hover:scale-105 font-bold w-60 max-w-full">
+      <button onclick="window.location.href='index.html'" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-[3px] border-brand-alert text-brand-alert bg-white transform transition-transform hover:scale-105 font-bold w-56 max-w-full">
         <img src="/restart-icon.svg" alt="Restart" class="w-5 h-5" />
         Restart Vibe Check
       </button>
