@@ -3,28 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe Questions</title>
+  <meta name="description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
 
-  <!-- Page Title -->
-<title>Vibe Questions</title>
+  <meta property="og:title" content="Vibe Questions" />
+  <meta property="og:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
+  <meta property="og:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
+  <meta property="og:url" content="https://vibetips.ai/vibe.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Vibe Tips" />
 
-<!-- Meta Description -->
-<meta name="description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Vibe Questions" />
+  <meta name="twitter:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
+  <meta name="twitter:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
 
-<!-- Open Graph Tags -->
-<meta property="og:title" content="Vibe Questions" />
-<meta property="og:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
-<meta property="og:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
-<meta property="og:url" content="https://vibetips.ai/vibe.html" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Vibe Tips" />
-
-<!-- Twitter Card Tags -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Vibe Questions" />
-<meta name="twitter:description" content="Vibe Tips is a fun, AI-powered tip calculator that makes tipping personal and engaging—because good vibes deserve great tips." />
-<meta name="twitter:image" content="https://vibetips.ai/VibeTips-Open-Graph.jpg" />
-  
-  <!-- Favicon & Manifest -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -83,8 +76,136 @@
   </div>
 
   <div id="vibeQuestions" class="mt-8 text-center"></div>
-
   <div id="footer" class="mt-auto"></div>
+
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+      });
+
+    let vibeQuestions = [];
+    let currentQuestionIndex = 0;
+    const sliderResponses = [];
+
+    function renderQuestion(index) {
+      const question = vibeQuestions[index];
+      const container = document.getElementById("vibeQuestions");
+
+      if (!question) {
+        container.innerHTML = `<p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>`;
+        return;
+      }
+
+      const backText = index === 0 ? "◀ Go Back" : "◀ Last Question";
+
+      container.innerHTML = `
+        <div id="last"></div>
+        <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
+        <input type="range" min="1" max="100" value="${sliderResponses[index] ?? 50}" class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none" id="vibeSlider" />
+        <div class="flex justify-between text-sm text-brand-text mt-2 px-2 max-w-[600px] mx-auto">
+          <span>${question.labels[0]}</span>
+          <span>${question.labels[1]}</span>
+          <span>${question.labels[2]}</span>
+        </div>
+        <div class="mt-6 flex flex-col gap-3 items-center">
+          <button class="bg-brand-primary text-white font-bold py-2 px-6 rounded-xl hover:bg-brand-accent transition ${index === vibeQuestions.length - 1 ? 'result-button' : ''}" onclick="nextQuestion()">
+            ${index < vibeQuestions.length - 1 ? "Next Question ▶" : "See Results ▶"}
+          </button>
+          <button class="back-button text-white font-bold py-2 px-6 rounded-xl" onclick="goBack()">
+            ${backText}
+          </button>
+        </div>`;
+    }
+
+    function nextQuestion() {
+      const sliderValue = document.getElementById("vibeSlider").value;
+      sliderResponses[currentQuestionIndex] = parseInt(sliderValue);
+      currentQuestionIndex++;
+      localStorage.setItem("lastQuestion", currentQuestionIndex);
+
+      if (currentQuestionIndex < vibeQuestions.length) {
+        renderQuestion(currentQuestionIndex);
+      } else {
+        const billAmount = parseFloat(localStorage.getItem("bill")) || 0;
+        localStorage.setItem("responses", JSON.stringify(sliderResponses));
+        window.location.href = "/tip.html";
+      }
+    }
+
+    function goBack() {
+      if (currentQuestionIndex === 0) {
+        window.location.href = "/index.html";
+      } else {
+        currentQuestionIndex--;
+        renderQuestion(currentQuestionIndex);
+      }
+    }
+
+    async function fetchVibeQuestions(formData) {
+      const loader = document.getElementById("vibe-loader");
+      const container = document.getElementById("vibeQuestions");
+      const startTime = Date.now();
+      const MIN_LOAD_TIME = 6000;
+
+      try {
+        const res = await fetch("/api/generate-questions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+
+        const raw = await res.text();
+        const data = JSON.parse(raw);
+        const elapsed = Date.now() - startTime;
+        const delay = Math.max(0, MIN_LOAD_TIME - elapsed);
+
+        setTimeout(() => {
+          loader.classList.add("fade-out");
+          vibeQuestions = data.questions || [];
+          container.classList.add("fade-in");
+          renderQuestion(currentQuestionIndex);
+        }, delay);
+
+      } catch (err) {
+        console.error("❌ Failed to fetch questions from API. Using fallback questions.", err);
+        loader.classList.add("fade-out");
+        vibeQuestions = [
+          { question: "How friendly was your server?", labels: ["Unfriendly", "Neutral", "Very Friendly"] },
+          { question: "How quickly did your food arrive?", labels: ["Slow", "Average", "Super Fast"] },
+          { question: "How was the overall atmosphere?", labels: ["Off", "Okay", "Amazing"] }
+        ];
+        container.classList.add("fade-in");
+        renderQuestion(currentQuestionIndex);
+      }
+    }
+
+    window.onload = async () => {
+      const bill = parseFloat(localStorage.getItem("bill")) || 0;
+      const restaurant = localStorage.getItem("restaurant") || "";
+      const type = localStorage.getItem("type") || "";
+      const server = localStorage.getItem("server") || "";
+
+      document.getElementById("billDisplay").textContent = `$${bill.toFixed(2)}`;
+      document.getElementById("serverDisplay").textContent = server;
+      document.getElementById("restaurantDisplay").textContent = restaurant;
+
+      const formData = { bill, restaurant, type, server };
+      await fetchVibeQuestions(formData);
+
+      if (window.location.hash === "#last") {
+        const savedIndex = parseInt(localStorage.getItem("lastQuestion"));
+        if (!isNaN(savedIndex) && savedIndex >= 0) {
+          currentQuestionIndex = savedIndex;
+          renderQuestion(currentQuestionIndex);
+        }
+      }
+    };
+  </script>
+</body>
+</html>
+
   <script>
     fetch('/footer.html')
       .then(res => res.text())
