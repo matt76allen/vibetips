@@ -56,9 +56,51 @@
     };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
+
   <style>
-    html { scroll-behavior: smooth; }
-  </style>
+  html { scroll-behavior: smooth; }
+
+  #vibe-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    transition: opacity 1s ease;
+  }
+
+  .fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+
+  .typing-wrapper {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .typing-text {
+    animation: typing 3s steps(20, end) infinite alternate;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+</style>
+
 </head>
 <body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col px-4 py-6">
   <div id="vibe-loader">
