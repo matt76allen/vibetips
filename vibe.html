@@ -63,113 +63,10 @@
     };
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
-
   <style>
-    #vibe-loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 1s ease-out;
-    }
-
-    .fade-out {
-      opacity: 0 !important;
-      pointer-events: none;
-    }
-
-    #vibeQuestions {
-      opacity: 0;
-      transition: opacity 0.5s ease-in;
-    }
-
-    .fade-in {
-      opacity: 1 !important;
-    }
-
-    .vibe-logo {
-      width: 120px;
-      animation: pulse 2s infinite;
-      filter: drop-shadow(0 0 10px #f26464);
-    }
-
-    .typing-text {
-      margin-top: 20px;
-      font-family: 'Baloo', sans-serif;
-      font-size: 18px;
-      color: #444;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 280px;
-      text-align: center;
-      display: inline-block;
-    }
-
-    .typing-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #line1 {
-      animation: typing 2.5s steps(30, end) forwards;
-    }
-
-    #line2 {
-      visibility: hidden;
-      animation: typing 2.5s steps(30, end) forwards;
-      animation-delay: 2.6s;
-      animation-fill-mode: forwards;
-    }
-
-    .back-button {
-      background-color: #e36414;
-      opacity: 1;
-      transition: opacity 0.3s ease;
-    }
-
-    .back-button:hover {
-  background-color: #177891 !important;
-}
-
-    .back-button:hover {
-      background-color: #e36414 !important;
-      opacity: 0.8;
-    }
-
-    .result-button {
-      font-size: 1.25rem;
-      padding: 0.75rem 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .result-button:hover {
-      transform: scale(1.05);
-    }
-
-    button:hover {
-      background-color: #177891 !important;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.85; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    @keyframes typing {
-      from { width: 0; visibility: visible; }
-      to { width: 280px; visibility: visible; }
-    }
+    html { scroll-behavior: smooth; }
   </style>
 </head>
-
 <body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col px-4 py-6">
   <div id="vibe-loader">
     <img src="/vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
@@ -211,13 +108,14 @@
       const backText = index === 0 ? "◀ Go Back" : "◀ Last Question";
 
       container.innerHTML = `
+        <div id="last"></div>
         <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
 
         <input
           type="range"
           min="1"
           max="100"
-          value="50"
+          value="${sliderResponses[index] ?? 50}"
           class="w-full max-w-[600px] px-2 mx-auto appearance-none h-3 rounded-lg bg-gradient-to-r from-brand-alert via-yellow-300 to-green-500 focus:outline-none"
           id="vibeSlider"
         />
@@ -249,6 +147,7 @@
       const sliderValue = document.getElementById("vibeSlider").value;
       sliderResponses[currentQuestionIndex] = parseInt(sliderValue);
       currentQuestionIndex++;
+      localStorage.setItem("lastQuestion", currentQuestionIndex);
 
       if (currentQuestionIndex < vibeQuestions.length) {
         renderQuestion(currentQuestionIndex);
@@ -318,6 +217,14 @@
 
       const formData = { bill, restaurant, type, server };
       await fetchVibeQuestions(formData);
+
+      if (window.location.hash === "#last") {
+        const savedIndex = parseInt(localStorage.getItem("lastQuestion"));
+        if (!isNaN(savedIndex) && savedIndex >= 0) {
+          currentQuestionIndex = savedIndex;
+          renderQuestion(currentQuestionIndex);
+        }
+      }
     };
   </script>
 </body>
