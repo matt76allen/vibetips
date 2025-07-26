@@ -136,6 +136,7 @@
     }
   </style>
 </head>
+
 <body class="bg-brand-background text-brand-text font-body min-h-screen px-4 py-10">
   <!-- Loading Screen -->
   <div id="tip-loader">
@@ -193,10 +194,22 @@
           </button>
         </div>
       </div>
+
+      <!-- New Navigation Buttons -->
+      <div class="mt-8 flex flex-col items-center gap-4">
+        <a href="/share.html"
+           class="bg-brand-primary text-white text-lg md:text-xl font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:bg-[#177891] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#177891]/50"
+           style="text-shadow: 0 0 6px rgba(23, 120, 145, 0.6);">
+          Share the Vibe ▶
+        </a>
+        <a href="/vibe.html#last"
+           class="bg-brand-accent text-white text-base font-bold py-2.5 px-6 rounded-xl transition hover:bg-[#fb8b24]">
+          ◀ Go Back
+        </a>
+      </div>
     </div>
   </main>
 
-  <!-- FOOTER -->
   <div id="footer"></div>
 <script>
   fetch('/footer.html')
@@ -293,3 +306,4 @@
 </script>
 </body>
 </html>
+
