@@ -196,7 +196,7 @@
       });
 
     let vibeQuestions = [];
-    let currentQuestionIndex = 0;
+    let currentQuestionIndex = parseInt(localStorage.getItem("lastQuestionIndex")) || 0;
     const sliderResponses = [];
 
     function renderQuestion(index) {
@@ -248,6 +248,7 @@
     function nextQuestion() {
       const sliderValue = document.getElementById("vibeSlider").value;
       sliderResponses[currentQuestionIndex] = parseInt(sliderValue);
+      localStorage.setItem("lastQuestionIndex", currentQuestionIndex);
       currentQuestionIndex++;
 
       if (currentQuestionIndex < vibeQuestions.length) {
@@ -264,6 +265,7 @@
         window.location.href = "/index.html";
       } else {
         currentQuestionIndex--;
+        localStorage.setItem("lastQuestionIndex", currentQuestionIndex);
         renderQuestion(currentQuestionIndex);
       }
     }
