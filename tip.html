@@ -60,6 +60,10 @@
           fontFamily: {
             heading: ["Baloo", "cursive"],
             body: ["Nunito", "sans-serif"]
+          },
+          boxShadow: {
+            glow: "0 0 10px rgba(23, 120, 145, 0.8)",
+            glowHover: "0 0 20px rgba(23, 120, 145, 1)"
           }
         }
       }
@@ -198,13 +202,13 @@
       <!-- New Navigation Buttons -->
       <div class="mt-8 flex flex-col items-center gap-4">
         <a href="/share.html"
-           class="bg-brand-primary text-white text-lg md:text-xl font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:bg-[#177891] hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#177891]/50"
+           class="bg-brand-primary text-white text-lg md:text-xl font-bold py-3 px-8 rounded-xl transition-all shadow-glow hover:shadow-glowHover focus:outline-none focus:ring-4 focus:ring-[#177891]/50"
            style="text-shadow: 0 0 6px rgba(23, 120, 145, 0.6);">
           Share the Vibe ▶
         </a>
-        <a href="/vibe.html#last"
+        <a href="/vibe.html"
            class="bg-brand-accent text-white text-base font-bold py-2.5 px-6 rounded-xl transition hover:bg-[#fb8b24]">
-          ◀ Go Back
+          ◀ New Vibe Check
         </a>
       </div>
     </div>
@@ -306,4 +310,3 @@
 </script>
 </body>
 </html>
-
