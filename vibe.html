@@ -135,11 +135,7 @@
     }
 
     .back-button:hover {
-  background-color: #177891 !important;
-}
-
-    .back-button:hover {
-      background-color: #e36414 !important;
+      background-color: #177891 !important;
       opacity: 0.8;
     }
 
@@ -169,7 +165,6 @@
     }
   </style>
 </head>
-
 <body class="bg-brand-background text-brand-text font-body min-h-screen flex flex-col px-4 py-6">
   <div id="vibe-loader">
     <img src="/vibe-loader.png" alt="Vibe Tips Heart $ Logo" class="vibe-logo" />
@@ -204,13 +199,13 @@
       const container = document.getElementById("vibeQuestions");
 
       if (!question) {
-        container.innerHTML = <p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>;
+        container.innerHTML = `<p class="text-red-600">⚠️ Failed to load questions. Please try again later.</p>`;
         return;
       }
 
       const backText = index === 0 ? "◀ Go Back" : "◀ Last Question";
 
-    container.innerHTML = `
+      container.innerHTML = `
   <h2 class="text-xl font-heading font-bold text-brand-heading mb-6">${question.question}</h2>
 
   <input
@@ -243,7 +238,6 @@
     </button>
   </div>
 `;
-
     }
 
     function nextQuestion() {
@@ -309,19 +303,19 @@
       }
     }
 
-    window.onload = async () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const bill = parseFloat(localStorage.getItem("bill")) || 0;
       const restaurant = localStorage.getItem("restaurant") || "";
       const type = localStorage.getItem("type") || "";
       const server = localStorage.getItem("server") || "";
 
-      document.getElementById("billDisplay").textContent = $${bill.toFixed(2)};
+      document.getElementById("billDisplay").textContent = `$${bill.toFixed(2)}`;
       document.getElementById("serverDisplay").textContent = server;
       document.getElementById("restaurantDisplay").textContent = restaurant;
 
       const formData = { bill, restaurant, type, server };
-      await fetchVibeQuestions(formData);
-    };
+      fetchVibeQuestions(formData);
+    });
   </script>
 </body>
 </html>
