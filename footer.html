@@ -42,23 +42,23 @@
     const closeButtons = document.querySelectorAll('.closeModal');
 
     // Open modals
-    openPrivacy.addEventListener('click', () => {
-      document.getElementById('privacyModal').classList.remove('hidden');
+    openPrivacy?.addEventListener('click', () => {
+      document.getElementById('privacyModal')?.classList.remove('hidden');
     });
 
-    openTerms.addEventListener('click', () => {
-      document.getElementById('termsModal').classList.remove('hidden');
+    openTerms?.addEventListener('click', () => {
+      document.getElementById('termsModal')?.classList.remove('hidden');
     });
 
-    // Close modals on close button click
+    // Close buttons
     closeButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const modalId = btn.getAttribute('data-target');
-        document.getElementById(modalId).classList.add('hidden');
+        document.getElementById(modalId)?.classList.add('hidden');
       });
     });
 
-    // ESC key to close all modals
+    // ESC key closes all modals
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         modals.forEach(modal => modal.classList.add('hidden'));
