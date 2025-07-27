@@ -37,36 +37,59 @@
   <link rel="shortcut icon" href="/favicon.ico" />
 
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              primary: "#0f4c5c",
-              accent: "#e36414",
-              heading: "#5f0f40",
-              text: "#177891",
-              alert: "#9a031e",
-              background: "#f9fafb"
-            }
-          },
-          fontFamily: {
-            heading: ["Baloo", "cursive"],
-            body: ["Nunito", "sans-serif"]
-          },
-          boxShadow: {
-            glow: "0 0 10px #0f4c5c",
-            glowHover: "0 0 18px #177891"
-          },
-          spacing: {
-            tight: "6px"
+ 
+<!-- Tailwind CDN with custom config and safelist -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            primary: "#0f4c5c",
+            accent: "#e36414",
+            heading: "#5f0f40",
+            text: "#177891",
+            alert: "#9a031e",
+            background: "#f9fafb"
           }
+        },
+        fontFamily: {
+          heading: ["Baloo", "cursive"],
+          body: ["Nunito", "sans-serif"]
+        },
+        boxShadow: {
+          glow: "0 0 10px #0f4c5c",
+          glowHover: "0 0 18px #177891"
+        },
+        spacing: {
+          tight: "6px"
         }
       }
-    };
-  </script>
+    },
+    safelist: [
+      'hidden',
+      'flex',
+      'modal',
+      'modal-content',
+      'inset-0',
+      'bg-black',
+      'bg-opacity-60',
+      'items-center',
+      'justify-center',
+      'z-50',
+      'max-w-lg',
+      'w-full',
+      'p-6',
+      'rounded-lg',
+      'shadow-lg',
+      'relative',
+      'max-h-[90vh]',
+      'overflow-y-auto',
+      'text-left'
+    ]
+  };
+</script>
 </head>
 <body class="bg-brand-background font-body text-brand-text">
 
