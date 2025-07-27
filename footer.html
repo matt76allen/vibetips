@@ -2,62 +2,8 @@
 <footer class="text-center text-sm py-6 border-t border-gray-200 mt-[30px]">
   <p class="mb-2">© 2025 Vibe Tips. All rights reserved.</p>
   <div class="space-x-4">
-    <a href="javascript:void(0)" onclick="openPopup('privacy')" class="hover:underline">Privacy Policy</a>
-    <a href="javascript:void(0)" onclick="openPopup('terms')" class="hover:underline">Terms of Use</a>
+    <a href="https://go.vibetips.ai/privacy-policy/" target="_blank" rel="noopener noreferrer" class="hover:underline">Privacy Policy</a>
+    <a href="https://go.vibetips.ai/terms-of-use/" target="_blank" rel="noopener noreferrer" class="hover:underline">Terms of Use</a>
     <a href="https://go.vibetips.ai" target="_blank" rel="noopener noreferrer" class="hover:underline">Blog</a>
   </div>
 </footer>
-
-<!-- Popup -->
-<div id="popupOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-  <div class="bg-white max-w-lg w-full p-6 rounded-lg relative text-left max-h-[90vh] overflow-y-auto shadow-lg">
-    <button onclick="closePopup()" class="absolute top-2 right-3 text-gray-500 text-xl">&times;</button>
-    <div id="popupContent"></div>
-  </div>
-</div>
-
-<script>
-  const contentMap = {
-    privacy: `
-      <h2 class="text-lg font-semibold mb-4">Privacy Summary</h2>
-      <p class="mb-4">We respect your privacy. When you use Vibe Tips, we collect basic information to help improve your experience and run the service effectively. This includes things like your device type, browser, and how you interact with the app or blog. If you submit anything (like a message or form), we may collect your name or email if provided.</p>
-      <p class="mb-4">We use Google AdSense to display ads, which may use cookies to personalize what you see. We may also use affiliate links on the blog or app, and we may earn a small commission if you click and make a purchase—at no cost to you.</p>
-      <p class="mb-4">Vibe Tips is a project operated under DPI Worldwide, LLC.</p>
-      <p><a href="https://go.vibetips.ai/privacy-policy/" target="_blank" class="text-blue-600 underline">View Full Privacy Policy</a></p>
-    `,
-    terms: `
-      <h2 class="text-lg font-semibold mb-4">Terms Summary</h2>
-      <p class="mb-4">By using Vibe Tips, you agree to use the app and blog in a respectful, lawful way. You may not misuse our tools, try to disrupt the service, or use the site for spam or unauthorized promotions.</p>
-      <p class="mb-4">Vibe Tips includes an AI-powered tip calculator, thank-you message generator, and other interactive features. These tools are for entertainment and informational purposes only and should not be considered financial advice.</p>
-      <p class="mb-4">All content, tools, branding, and designs are owned by DPI Worldwide, LLC and may not be copied or reused without permission.</p>
-      <p class="mb-4">We may show ads or include affiliate links. We are not responsible for any third-party sites we link to.</p>
-      <p><a href="https://go.vibetips.ai/terms-of-use/" target="_blank" class="text-blue-600 underline">View Full Terms of Use</a></p>
-    `
-  };
-
-  function openPopup(type) {
-    const popup = document.getElementById('popupOverlay');
-    const content = document.getElementById('popupContent');
-    if (contentMap[type]) {
-      content.innerHTML = contentMap[type];
-      popup.classList.remove('hidden');
-    }
-  }
-
-  function closePopup() {
-    document.getElementById('popupOverlay').classList.add('hidden');
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    // ESC key to close
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closePopup();
-    });
-
-    // Click outside to close
-    const overlay = document.getElementById('popupOverlay');
-    overlay.addEventListener('click', function (e) {
-      if (e.target.id === 'popupOverlay') closePopup();
-    });
-  });
-</script>
