@@ -33,15 +33,18 @@
   </div>
 </div>
 
-<!-- Modal Script (at end of body) -->
+<!-- Modal Script -->
 <script>
-  function toggleModal(id) {
+  // Expose globally for inline onclick use
+  window.toggleModal = function(id) {
     const modal = document.getElementById(id);
-    modal.classList.toggle('hidden');
-  }
+    if (modal) {
+      modal.classList.toggle('hidden');
+    }
+  };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // ESC key to close any open modal
+  document.addEventListener('DOMContentLoaded', function () {
+    // ESC to close any open modal
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal').forEach(modal => {
@@ -52,7 +55,7 @@
       }
     });
 
-    // Click outside modal content to close
+    // Click outside to close
     document.querySelectorAll('.modal').forEach(modal => {
       modal.addEventListener('click', function (e) {
         if (e.target === modal) {
