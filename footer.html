@@ -33,30 +33,32 @@
   </div>
 </div>
 
-<!-- Modal Toggle Script -->
+<!-- Modal Script (at end of body) -->
 <script>
   function toggleModal(id) {
     const modal = document.getElementById(id);
     modal.classList.toggle('hidden');
   }
 
-  // Close modal on ESC key
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal').forEach(modal => {
-        if (!modal.classList.contains('hidden')) {
+  document.addEventListener('DOMContentLoaded', () => {
+    // ESC key to close any open modal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+          if (!modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    // Click outside modal content to close
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
           modal.classList.add('hidden');
         }
       });
-    }
-  });
-
-  // Close modal on outside click
-  document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) {
-        modal.classList.add('hidden');
-      }
     });
   });
 </script>
