@@ -45,30 +45,52 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Baloo&family=Nunito&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS + Config -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              primary: "#0f4c5c",
-              accent: "#e36414",
-              heading: "#5f0f40",
-              text: "#177891",
-              alert: "#9a031e",
-              background: "#f9fafb"
-            }
-          },
-          fontFamily: {
-            heading: ["Baloo", "cursive"],
-            body: ["Nunito", "sans-serif"]
+ <!-- Tailwind CSS + Custom Config -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            primary: "#0f4c5c",
+            accent: "#e36414",
+            heading: "#5f0f40",
+            text: "#177891",
+            alert: "#9a031e",
+            background: "#f9fafb"
           }
+        },
+        fontFamily: {
+          heading: ["Baloo", "cursive"],
+          body: ["Nunito", "sans-serif"]
         }
       }
-    };
-  </script>
+    },
+    safelist: [
+      'hidden',
+      'flex',
+      'modal',
+      'modal-content',
+      'inset-0',
+      'bg-black',
+      'bg-opacity-60',
+      'items-center',
+      'justify-center',
+      'z-50',
+      'max-w-lg',
+      'w-full',
+      'p-6',
+      'rounded-lg',
+      'shadow-lg',
+      'relative',
+      'max-h-[90vh]',
+      'overflow-y-auto',
+      'text-left'
+    ]
+  };
+</script>
+
   <style>
     .blink-cursor {
       border-right: 2px solid #0f4c5c;
