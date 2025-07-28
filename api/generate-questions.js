@@ -26,12 +26,14 @@ Guidelines:
 Required questions (in some form):
 - Ask about the quality of the food.
 - Ask if drinks were refilled promptly, but only if the restaurant type suggests sit-down service.
+- Ask about the friendliness and attentiveness of the server.
 
 Important restrictions:
 - NEVER generate questions that begin with or reference "on a scale of..." or "on a scale from..."
 - Do NOT include questions about music, since not all restaurants play music.
 - Questions should be adapted based on the type of restaurant provided (e.g., fast food vs fine dining).
 - Do NOT mention specific food types; instead, use general mentions of food.
+- If restaurant type does not suggest sit-down service (like fast food or buffet or coffee shop), adapt the questions accordingly assuming the customer is ordering by standing at a counter.
 
 Each question must:
 - Feel casual, friendly, and optionally include a touch of humor or snark to keep it fun.
