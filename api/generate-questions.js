@@ -33,7 +33,7 @@ Important restrictions:
 - Do NOT include questions about music, since not all restaurants play music.
 - Questions should be adapted based on the type of restaurant provided (e.g., fast food vs fine dining).
 - Do NOT mention specific food types; instead, use general mentions of food.
-- If restaurant type does not suggest sit-down service (like fast food or buffet or coffee shop), adapt the questions accordingly assuming the customer is ordering by standing at a counter.
+- If restaurant type does not suggest sit-down service (like fast food or buffet or coffee shop), adapt the questions accordingly assuming the customer is ordering by standing at a counter or serving their own food via the buffet.
 
 Each question must:
 - Feel casual, friendly, and optionally include a touch of humor or snark to keep it fun.
