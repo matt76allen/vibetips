@@ -24,7 +24,7 @@ Guidelines:
 - Tip calculation will weight the service-related questions more heavily.
 
 Required questions (in some form):
-- Ask about the quality of the food.
+- Ask about the quality of the food or drinks (adapt by restaurant type - coffee shop or bar might be drinks only).
 - Ask if drinks were refilled promptly, but only if the restaurant type suggests sit-down service.
 - Ask about the friendliness and attentiveness of the server.
 
